@@ -37,7 +37,7 @@ export function ProductGrid({ category = "all" }: { category?: "new" | "popular"
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[...Array(8)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div key={i} className="bg-gray-200 aspect-square animate-pulse" />
         ))}
       </div>
@@ -49,7 +49,7 @@ export function ProductGrid({ category = "all" }: { category?: "new" | "popular"
 
   return (
     <div className="flex flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
         {displayedProducts.map((product, index) => (
           <div
             key={product.id}

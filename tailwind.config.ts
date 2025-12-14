@@ -6,8 +6,15 @@ const config: Config = {
     "./app/**/*.{js,jsx,tsx}",
     "./components/**/*.{js,jsx,tsx}",
   ],
-  // Tailwind 4: Most configuration is now in CSS using @theme directive in style.css
-  // Theme configuration has been moved to styles/style.css
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-geist)", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "monospace"],
+        script: ["var(--font-meow-script)", "cursive"],
+      },
+    },
+  },
 };
 
 export default config;

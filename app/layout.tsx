@@ -1,32 +1,32 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Meow_Script } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import "./globals.css"
+import "./globals.css" 
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+
+const geist = Geist({ subsets: ["latin"] })
+const geistMono = Geist_Mono({ subsets: ["latin"] })
+const meowScript = Meow_Script({
+  subsets: ["latin"],
+  weight: "400",
+})
 
 export const metadata: Metadata = {
-  title: "DeeGee - Premium Shopping Experience",
-  description: "Shop the latest products with amazing discounts",
-  generator: "v0.app",
+  title: "SilkyTouch - Buy the best handmade local items",
+  description: "Shop the latest products with the best price",
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
+        url: "/brands/logo.png",
         media: "(prefers-color-scheme: light)",
       },
       {
-        url: "/icon-dark-32x32.png",
+        url: "/brands/logo.png",
         media: "(prefers-color-scheme: dark)",
       },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
     ],
-    apple: "/apple-icon.png",
+    apple: "/brands/logo.png",
   },
 }
 
@@ -36,8 +36,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased bg-white`}>
+    <html
+      lang="en"
+      suppressHydrationWarning>
+      <body className={`${geist.className} antialiased bg-white`}>
         {children}
         <Analytics />
       </body>

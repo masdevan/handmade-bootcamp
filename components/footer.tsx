@@ -1,11 +1,22 @@
+import Image from "next/image"
+import Link from "next/link"
+import { Meow_Script } from "next/font/google"
+
+const meowScript = Meow_Script({
+  subsets: ["latin"],
+  weight: "400",
+})
 export function Footer() {
   return (
-    <footer className="bg-black text-white border-t border-white/10">
+    <footer className="bg-white text-black border-t border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-20">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
-          <div>
-            <h3 className="text-2xl font-bold mb-4">EStore</h3>
+          <div className="flex flex-col gap-5">
+            <Link href="/" className={`${meowScript.className} text-4xl text-[#C5A48E] flex flex-row items-center gap-2`}>
+              <Image alt="logo" src="/brands/logo.png" width={40} height={40} />
+              SilkyTouch
+            </Link>
             <p className="text-gray-400">Premium shopping experience with curated collections and exclusive deals.</p>
           </div>
 
@@ -92,7 +103,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-8">
-          <p className="text-center text-gray-500 text-sm">© 2025 EStore. All rights reserved.</p>
+          <p className="text-center text-gray-500 text-sm">© 2025 SilkyTouch. All rights reserved.</p>
         </div>
       </div>
     </footer>
