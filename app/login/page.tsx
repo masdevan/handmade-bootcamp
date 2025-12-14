@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   const handleLogin = (email: string, password: string) => {
     if (email === "admin@deegee.com") {
-      router.push("/admin")
+      router.push("/admin/dashboard")
     }
   }
 
