@@ -6,6 +6,8 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { AuthLayout } from "@/app/login/components/AuthLayout"
 import { LoginForm } from "@/app/login/components/LoginForm"
+import { RegisterForm } from "./components/RegisterForm"
+import { ForgotPasswordForm } from "./components/ForgotPasswordForm"
 
 export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "register" | "forgot">("login")
@@ -30,13 +32,12 @@ export default function LoginPage() {
             />
           )}
 
-          {/* {mode === "register" && (
-            // <RegisterForm onLogin={() => setMode("login")} />
+          {mode === "register" && (
+            <RegisterForm onSubmit={() => {}} onLogin={() => setMode("login")} />
           )}
-
           {mode === "forgot" && (
-            <ForgotPasswordForm onBack={() => setMode("login")} />
-          )} */}
+            <ForgotPasswordForm onSubmit={() => {}} onBack={() => setMode("login")} />
+          )}
         </AuthLayout>
       </main>
       <Footer />
