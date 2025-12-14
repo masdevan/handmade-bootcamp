@@ -1,0 +1,150 @@
+datasource db {
+  provider = "mysql"
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  password     String
+  phone        String
+  role         String
+  createdAt    DateTime
+  updatedAt    DateTime
+
+  wishlists    Wishlist[]
+  cartItems    CartItem[]
+  orders       Order[]
+  testimonials Testimonial[]
+}
+
+model Product {
+  id              Int              @id @default(autoincrement())
+  name            String
+  description     String
+  materials       String
+  notes           String
+  basePrice       Int
+  category        String
+  createdAt       DateTime
+  updatedAt       DateTime
+
+  images          ProductImage[]
+  variants        ProductVariant[]
+  wishlists       Wishlist[]
+  cartItems       CartItem[]
+  orderItems      OrderItem[]
+  testimonials    Testimonial[]
+}
+
+model ProductImage {
+  id         Int     @id @default(autoincrement())
+  productId  Int
+  url        String
+  isPrimary  Boolean
+
+  product    Product @relation(fields: [productId], references: [id])
+}
+
+model ProductVariant {
+  id         Int     @id @default(autoincrement())
+  productId  Int
+  type       String 
+  value      String
+  addPrice   Int
+
+  product    Product @relation(fields: [productId], references: [id])
+}
+
+model Wishlist {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  productId Int
+
+  user      User    @relation(fields: [userId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model CartItem {
+  id             Int     @id @default(autoincrement())
+  userId         Int
+  productId      Int
+  quantity       Int
+  variantColorId Int?
+  variantSizeId  Int?
+  customRequest  String?
+
+  user            User    @relation(fields: [userId], references: [id])
+  product         Product @relation(fields: [productId], references: [id])
+}
+
+model Order {
+  id              Int       @id @default(autoincrement())
+  userId          Int
+  totalPrice      Int
+  address         String
+  shippingMethod  String
+  shippingCost    Int
+  notes           String?
+  status          String
+  paymentStatus   String
+  proofUrl        String?
+  createdAt       DateTime
+  updatedAt       DateTime
+
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+  payments        Payment[]
+}
+
+model OrderItem {
+  id             Int     @id @default(autoincrement())
+  orderId        Int
+  productId      Int
+  quantity       Int
+  variantColorId Int?
+  variantSizeId  Int?
+  customRequest  String?
+  priceEach      Int
+
+  order          Order   @relation(fields: [orderId], references: [id])
+  product        Product @relation(fields: [productId], references: [id])
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  method    String
+  qrisRef   String?
+  total     Int
+  paidAt    DateTime?
+  proofUrl  String?
+
+  order     Order    @relation(fields: [orderId], references: [id])
+}
+
+model Testimonial {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  productId  Int
+  rating     Int
+  comment    String
+  createdAt  DateTime
+
+  user       User     @relation(fields: [userId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+}
+
+model Promo {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  discount     Int
+  activeFrom   DateTime
+  activeUntil  DateTime
+}
