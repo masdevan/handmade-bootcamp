@@ -8,17 +8,27 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { getTopProducts } from "../fetch";
+import Link from "next/link";
 
 export async function TopProducts() {
   const data = await getTopProducts();
 
   return (
     <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
-      <div className="px-6 py-4 sm:px-7 sm:py-5 xl:px-8.5">
+      <Link href={'users/create'} className="px-6 py-4 sm:px-7 sm:py-5 xl:px-8.5 flex justify-between">
         <h2 className="text-2xl font-bold text-dark dark:text-white">
           Top Products
         </h2>
-      </div>
+        <div className="">
+            <label
+              htmlFor="cover"
+              className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-[30px] py-[10px] text-body-sm font-medium text-white hover:bg-opacity-90"
+            >
+              {/* <CameraIcon /> */}
+              <span>Create</span>
+            </label>
+          </div>
+      </Link>
 
       <Table>
         <TableHeader>

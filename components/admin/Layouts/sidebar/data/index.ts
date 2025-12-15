@@ -9,6 +9,12 @@ export const NAV_DATA = [
         url: "/admin/dashboard",
         icon: Icons.HomeIcon,
         items: [],
+      },
+      {
+        title: "Users",
+        url: "/admin/users",
+        icon: Icons.User,
+        items: [],
       }
     ],
   },
