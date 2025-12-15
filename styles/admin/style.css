@@ -16,6 +16,10 @@
   --breakpoint-3xl: 2000px;
 
   /* Colors */
+  --color-stroke: #e0e0e0;
+  --border: #e0e0e0;
+
+  /* Colors */
   --color-primary: #5750F1;
   --color-stroke: #E6EBF1;
   --color-stroke-dark: #27303E;
@@ -381,6 +385,16 @@
 }
 
 @layer base {
+  *, ::before, ::after {
+    border-style: solid;
+    border-color: #e5e7eb;
+  }
+
+  .dark * {
+    --tw-border-opacity: 1;
+    border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
+  }
+
   body {
     @apply bg-gray-2 text-dark-5 dark:bg-[#020D1A] dark:text-dark-6;
   }
