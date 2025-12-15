@@ -52,8 +52,8 @@ export function ForgotPasswordForm({
           type="submit"
           className="
             w-full py-4 rounded-full
-            bg-black text-white font-bold
-            hover:bg-gray-800
+            bg-[#C5A48E] text-white font-bold
+            hover:bg-transparent hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border
             transition-colors duration-200
           "
         >
