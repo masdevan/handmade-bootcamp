@@ -25,19 +25,19 @@ export function Header() {
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 animate-slide-in-down shadow-sm">
-      <div className="max-w-full px-4 md:px-8 lg:px-16 py-3">
+      <div className="max-w-7xl m-auto py-3">
         <div className="flex items-center justify-between">
           <Link href="/" className={`${meowScript.className} text-4xl text-[#C5A48E] flex flex-row items-center gap-3`}>
             <Image alt="logo" src="/brands/logo.png" width={40} height={40} />
             SilkyTouch
           </Link>
 
-          <nav className="hidden md:flex items-center gap-3">
+          <nav className="hidden md:flex items-center gap-8">
             {menuItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-white hover:bg-[#a18978] py-1 px-2 rounded-xl bg-[#C5A48E] transition-colors font-medium text-sm"
+                className="text-[#C5A48E] hover:text-[#a18978] font-medium text-sm"
               >
                 {item.label}
               </Link>

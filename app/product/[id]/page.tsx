@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { use, useEffect, useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { useCartStore } from "@/lib/cart-store"
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
 interface Product {
-  id: string
+  id: number
   name: string
   description: string
   price: number
@@ -18,7 +18,9 @@ interface Product {
   stock: number
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  // const { id } = use(params)
+  const id = use(params).id
   const [product, setProduct] = useState<Product | null>(null)
   const [quantity, setQuantity] = useState(1)
   const [priceHistory, setPriceHistory] = useState<{ time: string; price: number }[]>([])
@@ -29,7 +31,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/products/${params.id}`)
+        const response = await fetch(`/api/products/${id}`)
         const data = await response.json()
         setProduct(data)
 
@@ -50,7 +52,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     }
 
     fetchProduct()
-  }, [params.id])
+  }, [id])
 
   if (!product) {
     return (
@@ -136,7 +138,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 </p>
                 <p className="text-lg">
                   <span className="font-bold">SKU: </span>
-                  <span className="text-gray-600">DG-{product.id.padStart(4, "0")}</span>
+                  <span className="text-gray-600">DG-{String(product.id).padStart(4, "0")}</span>
                 </p>
                 <p className="text-lg">
                   <span className="font-bold">Rating: </span>

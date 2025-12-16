@@ -9,7 +9,7 @@ const meowScript = Meow_Script({
 export function Footer() {
   return (
     <footer className="bg-white text-black border-t border-gray-200 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 py-20">
+      <div className="max-w-7xl mx-auto py-20">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="flex flex-col gap-5">
@@ -17,30 +17,30 @@ export function Footer() {
               <Image alt="logo" src="/brands/logo.png" width={40} height={40} />
               SilkyTouch
             </Link>
-            <p className="text-gray-400">Premium shopping experience with curated collections and exclusive deals.</p>
+            <p className="text-[#857164]">Premium shopping experience with curated collections and exclusive deals.</p>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="font-bold mb-4">Shop</h4>
+            <h4 className="font-bold mb-4 text-[#ba9a85]">Shop</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="/shop" className="hover:text-white transition-colors">
+                <a href="/shop" className="text-[#857164] transition-colors">
                   All Products
                 </a>
               </li>
               <li>
-                <a href="/shop?new" className="hover:text-white transition-colors">
+                <a href="/shop?new" className="text-[#857164] transition-colors">
                   New Arrivals
                 </a>
               </li>
               <li>
-                <a href="/shop?popular" className="hover:text-white transition-colors">
+                <a href="/shop?popular" className="text-[#857164] transition-colors">
                   Popular
                 </a>
               </li>
               <li>
-                <a href="/shop?sale" className="hover:text-white transition-colors">
+                <a href="/shop?sale" className="text-[#857164] transition-colors">
                   Sale
                 </a>
               </li>
@@ -49,25 +49,25 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="font-bold mb-4">Company</h4>
+            <h4 className="font-bold mb-4 text-[#ba9a85]">Company</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="/about" className="hover:text-white transition-colors">
+                <a href="/about" className="text-[#857164] transition-colors">
                   About
                 </a>
               </li>
               <li>
-                <a href="/contact" className="hover:text-white transition-colors">
+                <a href="/contact" className="text-[#857164] transition-colors">
                   Contact
                 </a>
               </li>
               <li>
-                <a href="/privacy" className="hover:text-white transition-colors">
+                <a href="/privacy" className="text-[#857164] transition-colors">
                   Privacy
                 </a>
               </li>
               <li>
-                <a href="/terms" className="hover:text-white transition-colors">
+                <a href="/terms" className="text-[#857164] transition-colors">
                   Terms
                 </a>
               </li>
@@ -76,25 +76,25 @@ export function Footer() {
 
           {/* Support */}
           <div>
-            <h4 className="font-bold mb-4">Support</h4>
+            <h4 className="font-bold mb-4 text-[#ba9a85]">Support</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
-                <a href="/help" className="hover:text-white transition-colors">
+                <a href="/help" className="text-[#857164] transition-colors">
                   Help Center
                 </a>
               </li>
               <li>
-                <a href="/shipping" className="hover:text-white transition-colors">
+                <a href="/shipping" className="text-[#857164] transition-colors">
                   Shipping Info
                 </a>
               </li>
               <li>
-                <a href="/returns" className="hover:text-white transition-colors">
+                <a href="/returns" className="text-[#857164] transition-colors">
                   Returns
                 </a>
               </li>
               <li>
-                <a href="/faq" className="hover:text-white transition-colors">
+                <a href="/faq" className="text-[#857164] transition-colors">
                   FAQ
                 </a>
               </li>

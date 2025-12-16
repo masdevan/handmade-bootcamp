@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation"
 import { signIn, getSession } from "next-auth/react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { AuthLayout } from "@/app/login/components/AuthLayout"
-import { LoginForm } from "@/app/login/components/LoginForm"
-import { RegisterForm } from "./components/RegisterForm"
-import { ForgotPasswordForm } from "./components/ForgotPasswordForm"
+import { AuthLayout } from "@/components/auth/AuthLayout"
+import { LoginForm } from "@/components/auth/LoginForm"
+import { RegisterForm } from "../../components/auth/RegisterForm"
+import { ForgotPasswordForm } from "../../components/auth/ForgotPasswordForm"
 
 export default function LoginPage() {
   const [mode, setMode] = useState<"login" | "register" | "forgot">("login")
@@ -37,7 +37,7 @@ export default function LoginPage() {
         const session = await getSession()
         
         if (session?.user?.role === "ADMIN") {
-          router.push("/admin")
+          router.push("/admin/dashboard")
         } else {
           router.push("/")
         }
