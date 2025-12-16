@@ -1,22 +1,22 @@
 import Breadcrumb from "@/components/admin/Breadcrumbs/Breadcrumb";
-import { TableUsers } from "./components/index";
-import { TableUsersSkeleton } from "./skeleton";
+import { TableProducts } from "./components/index";
+import { TableProductsSkeleton } from "./skeleton";
 
 import { Metadata } from "next";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Users",
+  title: "Products",
 };
 
 const TablesPage = () => {
   return (
     <>
-      <Breadcrumb pageName="Users" />
+      <Breadcrumb pageName="Products" />
 
       <div className="space-y-10">
-        <Suspense fallback={<TableUsersSkeleton />}>
-          <TableUsers />
+        <Suspense fallback={<TableProductsSkeleton />}>
+          <TableProducts />
         </Suspense>
       </div>
     </>
