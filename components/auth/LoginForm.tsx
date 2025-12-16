@@ -16,8 +16,8 @@ export function LoginForm({
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-      <p className="text-gray-600 mb-10">Sign in to your account</p>
+      <h1 className="text-3xl font-bold text-[#857164]">Welcome Back</h1>
+      <p className="text-[#857164] mb-10">Sign in to your account</p>
 
       <form
         className="space-y-6"
@@ -28,7 +28,7 @@ export function LoginForm({
       >
         {/* Email */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-black">
+          <label className="block text-sm font-bold text-[#857164]">
             Email Address
           </label>
           <input
@@ -39,9 +39,9 @@ export function LoginForm({
             className="
               w-full px-5 py-3
               rounded-full
-              border border-black/20
-              bg-white text-black
-              placeholder:text-gray-400
+              border border-[#857164]  
+              bg-white text-[#857164]
+              placeholder:text-[#b69d8c]
               focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent
               transition
             "
@@ -51,7 +51,7 @@ export function LoginForm({
 
         {/* Password */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-black">
+          <label className="block text-sm font-bold text-[#857164]">
             Password
           </label>
           <input
@@ -62,9 +62,9 @@ export function LoginForm({
             className="
               w-full px-5 py-3
               rounded-full
-              border border-black/20
-              bg-white text-black
-              placeholder:text-gray-400
+              border border-[#857164]  
+              bg-white text-[#857164]   
+              placeholder:text-[#b69d8c]
               focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent
               transition
             "
@@ -77,7 +77,7 @@ export function LoginForm({
           <button
             type="button"
             onClick={onForgot}
-            className="text-sm font-bold text-black hover:text-gray-700 transition"
+            className="text-sm font-bold text-[#857164] cursor-pointer hover:text-[#b69d8c] transition"
           >
             Forgot password?
           </button>
@@ -89,8 +89,8 @@ export function LoginForm({
           className="
             w-full py-4
             rounded-full
-            bg-[#C5A48E] text-white
-            font-bold
+            bg-[#C5A48E] text-white border-[#C5A48E] border
+            font-bold cursor-pointer
             hover:bg-transparent hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border
             transition-colors duration-200
           "
@@ -100,12 +100,12 @@ export function LoginForm({
       </form>
 
       {/* Register */}
-      <p className="text-center mt-8 text-sm text-gray-600">
+      <p className="text-center mt-8 text-sm text-[#C5A48E]">
         Don&apos;t have an account?{" "}
         <button
           type="button"
           onClick={onRegister}
-          className="font-bold text-black hover:text-gray-700 transition"
+          className="font-bold cursor-pointer text-[#857164] hover:text-[#b69d8c] transition"
         >
           Register
         </button>

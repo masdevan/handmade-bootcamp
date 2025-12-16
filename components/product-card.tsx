@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Content - grows to fill remaining space */}
         <div className="flex flex-col gap-2 mt-2">
           <div>
-            <h3 className="font-bold text-lg -mb-2 text-[#8d7565] line-clamp-2 group-hover:text-gray-700 transition-colors">
+            <h3 className="font-bold text-lg -mb-2 text-[#8d7565] line-clamp-2 group-hover:text-[#55463c] transition-colors">
               {product.name}
             </h3>
           </div>

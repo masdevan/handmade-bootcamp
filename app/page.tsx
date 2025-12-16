@@ -28,7 +28,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 px-4 md:px-8 lg:px-16 bg-neutral-50">
+      <section className="py-20 px-4 md:px-8 lg:px-16 bg-white">
         <div className="w-full max-w-7xl m-auto">
           <div className="animate-slide-in-up" style={{ animationDelay: "0.2s" }}>
             <h2 className="text-4xl md:text-5xl font-bold text-[#8e7768]">Popular Products</h2>
