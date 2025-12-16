@@ -4,3 +4,7 @@ dist/
 .next/
 /lib/generated/prisma
 pnpm-lock.yaml
+prisma/generated/
+prisma/generated/prisma/
+prisma/generated/prisma/*
+prisma/migrations/

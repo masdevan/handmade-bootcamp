@@ -22,3 +22,11 @@ auth:
   "token": "5ba365020ebfdb3ba538ddbc7b6ff523e909188d72ca228381c8f28705b3abac",
   "newPassword": "11111",
 }
+
+
+product:
+1. npx prisma db seed
+2. get all product localhost:3000/api/products
+3. get product by id localhost:3000/api/products/1 ( tapi masih kena NaN)
+4. 
+

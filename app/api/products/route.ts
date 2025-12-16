@@ -1,17 +1,24 @@
-import { NextResponse } from "next/server"
-import { MOCK_PRODUCTS } from "@/lib/mock-data"
+import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const category = searchParams.get("category") || "all"
+export async function GET() {
+  try {
+    const products = await prisma.product.findMany({
+      include: {
+        images: true,
+        variants: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
 
-  let filteredProducts = MOCK_PRODUCTS
-
-  if (category === "new") {
-    filteredProducts = MOCK_PRODUCTS.filter((p) => p.is_new)
-  } else if (category === "popular") {
-    filteredProducts = MOCK_PRODUCTS.filter((p) => p.is_popular)
+    return NextResponse.json(products)
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    )
   }
-
-  return NextResponse.json(filteredProducts)
 }
