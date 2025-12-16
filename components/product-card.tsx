@@ -7,7 +7,9 @@ interface ProductCardProps {
     name: string
     price: number
     discount_percent: number
-    image_url: string
+    images: {
+      url: string
+    }[]
     is_new: boolean
     is_popular: boolean
   }
@@ -15,6 +17,9 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const discountedPrice = product.price * (1 - product.discount_percent / 100)
+  const imageUrl = product.images && product.images.length > 0 
+    ? product.images[0].url 
+    : "/placeholder.svg"
 
   return (
     <Link href={`/product/${product.id}`}>
@@ -22,7 +27,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Image Container */}
         <div className="relative overflow-hidden bg-gray-100 aspect-square w-full rounded-xl border border-gray-200">
           <img
-            src={product.image_url || "/placeholder.svg"}
+            src={imageUrl}
             alt={product.name}
             className="w-full h-full object-cover"
           />
