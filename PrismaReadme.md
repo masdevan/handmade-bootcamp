@@ -13,3 +13,12 @@ auth:
   "password": "password123",
   "phone": "08123456789"
 }
+3. untuk forgot password api nya localhost:3000/api/auth/forgot-password
+{
+  "email": "guntur@mail.com"
+}
+4 untuk reset password api nya localhost:3000/api/auth/reset-password
+{
+  "token": "5ba365020ebfdb3ba538ddbc7b6ff523e909188d72ca228381c8f28705b3abac",
+  "newPassword": "11111",
+}
