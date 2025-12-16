@@ -28,5 +28,21 @@ product:
 1. npx prisma db seed
 2. get all product localhost:3000/api/products
 3. get product by id localhost:3000/api/products/1 ( tapi masih kena NaN)
-4. 
+4. post product localhost:3000/api/products
+5. {
+  "name": "Meja Kayu",
+  "description": "Meja kayu jati handmade",
+  "materials": "Kayu Jati",
+  "notes": "Custom order",
+  "basePrice": 1500000,
+  "category": "Furniture",
+  "images": [
+    { "url": "https://img.com/1.jpg", "isPrimary": true }
+  ],
+  "variants": [
+    { "type": "color", "value": "Coklat", "addPrice": 0 },
+    { "type": "size", "value": "Besar", "addPrice": 200000 }
+  ]
+}
+
 
