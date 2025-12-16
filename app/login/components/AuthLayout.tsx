@@ -1,7 +1,7 @@
 export function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
-      <div className="w-full max-w-6xl animate-scale-in">
-        <div className="grid grid-cols-1 lg:grid-cols-2 border border-black/10 min-h-[600px]">
+      <div className="w-full max-w-5xl animate-scale-in">
+        <div className="grid grid-cols-1 lg:grid-cols-2 border border-black/10">
           {/* Left */}
           
           <img src="/images/login-image.jpg" alt="Login Background" className="w-full h-full object-contain" />
