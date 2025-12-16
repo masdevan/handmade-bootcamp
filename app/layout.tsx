@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono, Meow_Script } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { Providers } from "@/components/providers"
 import "./globals.css" 
 
 
@@ -40,7 +41,9 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning>
       <body className={`${geist.className} antialiased bg-white`}>
-        {children}
+        <Providers>
+          {children}
+        </Providers>
         <Analytics />
       </body>
     </html>

@@ -7,7 +7,7 @@ export function LoginForm({
   onForgot,
   onRegister,
 }: {
-  onSubmit: (email: string, password: string) => void
+  onSubmit: (email: string, password: string) => Promise<void>
   onForgot: () => void
   onRegister: () => void
 }) {
@@ -21,9 +21,9 @@ export function LoginForm({
 
       <form
         className="space-y-6"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault()
-          onSubmit(email, password)
+          await onSubmit(email, password)
         }}
       >
         {/* Email */}
