@@ -36,7 +36,7 @@ export default function LoginPage() {
       if (result?.ok) {
         const session = await getSession()
         
-        if (session?.user?.role === "ADMIN") {
+        if (session?.user?.role === "ADMIN" || session?.user?.role === "admin") {
           router.push("/admin/dashboard")
         } else {
           router.push("/")
