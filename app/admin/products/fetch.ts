@@ -6,6 +6,7 @@ export async function getTopProducts() {
 
   return [
     {
+      id:1,
       image: "/images/product/product-01.png",
       name: "Apple Watch Series 7",
       category: "Electronics",
@@ -14,6 +15,7 @@ export async function getTopProducts() {
       profit: 45,
     },
     {
+      id:2,
       image: "/images/product/product-02.png",
       name: "Macbook Pro M1",
       category: "Electronics",
@@ -22,6 +24,7 @@ export async function getTopProducts() {
       profit: 125,
     },
     {
+      id:3,
       image: "/images/product/product-03.png",
       name: "Dell Inspiron 15",
       category: "Electronics",
@@ -30,6 +33,7 @@ export async function getTopProducts() {
       profit: 247,
     },
     {
+      id:4,
       image: "/images/product/product-04.png",
       name: "HP Probook 450",
       category: "Electronics",

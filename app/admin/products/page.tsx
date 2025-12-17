@@ -12,7 +12,12 @@ export const metadata: Metadata = {
 const TablesPage = () => {
   return (
     <>
-      <Breadcrumb pageName="Products" />
+      <Breadcrumb
+        items={[
+          { label: "Dashboard", href: "/admin/dashboard" },
+          { label: "Products" },
+        ]}
+      />
 
       <div className="space-y-10">
         <Suspense fallback={<TableProductsSkeleton />}>

@@ -154,7 +154,7 @@ export function Sidebar() {
                                 className="flex items-center gap-3 py-3"
                                 as="link"
                                 href={href}
-                                isActive={pathname === href}
+                                isActive={pathname.startsWith(href)}
                               >
                                 <item.icon
                                   className="size-6 shrink-0"

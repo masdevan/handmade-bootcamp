@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import { getTopProducts } from "../fetch";
 import Link from "next/link";
-import { TrashIcon, DownloadIcon, PreviewIcon } from "@/assets/admin/icons";
+import { TrashIcon, PencilSquareIcon, PreviewIcon } from "@/assets/admin/icons";
 
 export async function TableProducts() {
   const data = await getTopProducts();
@@ -77,14 +77,14 @@ export async function TableProducts() {
                     <PreviewIcon />
                   </button>
 
+                  <Link href={`products/${product.id}/edit`} className="hover:text-primary">
+                    <span className="sr-only">Download Invoice</span>
+                    <PencilSquareIcon />
+                  </Link>
+
                   <button className="hover:text-primary">
                     <span className="sr-only">Delete Invoice</span>
                     <TrashIcon />
-                  </button>
-
-                  <button className="hover:text-primary">
-                    <span className="sr-only">Download Invoice</span>
-                    <DownloadIcon />
                   </button>
                 </div>
               </TableCell>

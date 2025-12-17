@@ -9,7 +9,7 @@ import {
 import Image from "next/image";
 import { getTopProducts } from "../fetch";
 import Link from "next/link";
-import { TrashIcon, DownloadIcon, PreviewIcon } from "@/assets/admin/icons";
+import { TrashIcon, PencilSquareIcon, PreviewIcon } from "@/assets/admin/icons";
 
 export async function TableUsers() {
   const data = await getTopProducts();
@@ -78,13 +78,13 @@ export async function TableUsers() {
                   </button>
 
                   <button className="hover:text-primary">
-                    <span className="sr-only">Delete Invoice</span>
-                    <TrashIcon />
+                    <span className="sr-only">Download Invoice</span>
+                    <PencilSquareIcon />
                   </button>
 
                   <button className="hover:text-primary">
-                    <span className="sr-only">Download Invoice</span>
-                    <DownloadIcon />
+                    <span className="sr-only">Delete Invoice</span>
+                    <TrashIcon />
                   </button>
                 </div>
               </TableCell>
