@@ -1,47 +1,45 @@
 import * as logos from "@/assets/admin/logos";
+import { prisma } from "@/lib/prisma";
+import { unstable_noStore as noStore } from "next/cache";
 
-export async function getTopProducts() {
-  // Fake delay
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+const PAGE_SIZE = 10;
 
-  return [
-    {
-      id:1,
-      image: "/images/product/product-01.png",
-      name: "Apple Watch Series 7",
-      category: "Electronics",
-      price: 296,
-      sold: 22,
-      profit: 45,
-    },
-    {
-      id:2,
-      image: "/images/product/product-02.png",
-      name: "Macbook Pro M1",
-      category: "Electronics",
-      price: 546,
-      sold: 12,
-      profit: 125,
-    },
-    {
-      id:3,
-      image: "/images/product/product-03.png",
-      name: "Dell Inspiron 15",
-      category: "Electronics",
-      price: 443,
-      sold: 64,
-      profit: 247,
-    },
-    {
-      id:4,
-      image: "/images/product/product-04.png",
-      name: "HP Probook 450",
-      category: "Electronics",
-      price: 499,
-      sold: 72,
-      profit: 103,
-    },
-  ];
+export async function getTopProducts(page = 1) {
+  noStore();
+
+  const validPage = Math.max(1, Math.floor(page));
+  const skip = (validPage - 1) * PAGE_SIZE;
+
+  const [items, total] = await Promise.all([
+    prisma.product.findMany({
+      skip,
+      take: PAGE_SIZE,
+      include: {
+        images: { where: { isPrimary: true }, take: 1 },
+        orderItems: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.product.count(),
+  ]);
+
+  const data = items.map((product) => ({
+    id: product.id,
+    image: product.images[0]?.url ?? "/images/placeholder.png",
+    name: product.name,
+    category: product.category,
+    price: product.basePrice,
+    sold: product.orderItems.reduce((sum, i) => sum + i.quantity, 0),
+  }));
+
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+
+  return {
+    data,
+    total,
+    totalPages: totalPages || 1,
+    currentPage: validPage,
+  };
 }
 
 export async function getInvoiceTableData() {

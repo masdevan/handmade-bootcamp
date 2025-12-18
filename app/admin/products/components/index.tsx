@@ -10,9 +10,19 @@ import Image from "next/image";
 import { getTopProducts } from "../fetch";
 import Link from "next/link";
 import { TrashIcon, PencilSquareIcon, PreviewIcon } from "@/assets/admin/icons";
+import { AdminPagination } from "@/components/admin/Pagination";
 
-export async function TableProducts() {
-  const data = await getTopProducts();
+export async function TableProducts({
+    searchParams,
+  }: {
+    searchParams: Promise<{ page?: string }> | { page?: string };
+  }) {
+    const resolvedSearchParams = searchParams instanceof Promise 
+      ? await searchParams 
+      : searchParams;
+    
+    const page = Number(resolvedSearchParams.page ?? 1);
+    const { data, totalPages, total } = await getTopProducts(page);
 
   return (
     <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
@@ -25,7 +35,6 @@ export async function TableProducts() {
               htmlFor="cover"
               className="flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary px-[30px] py-[10px] text-body-sm font-medium text-white hover:bg-opacity-90"
             >
-              {/* <CameraIcon /> */}
               <span>Create</span>
             </label>
           </div>
@@ -39,7 +48,6 @@ export async function TableProducts() {
             </TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Price</TableHead>
-            <TableHead>Sold</TableHead>
             <TableHead className="pr-5 text-right sm:pr-6 xl:pr-7.5">
               Actions
             </TableHead>
@@ -50,7 +58,7 @@ export async function TableProducts() {
           {data.map((product) => (
             <TableRow
               className="text-base font-medium text-dark dark:text-white"
-              key={product.name + product.profit}
+              key={product.id}
             >
               <TableCell className="flex min-w-fit items-center gap-3 pl-5 sm:pl-6 xl:pl-7.5">
                 <Image
@@ -67,8 +75,6 @@ export async function TableProducts() {
               <TableCell>{product.category}</TableCell>
 
               <TableCell>${product.price}</TableCell>
-
-              <TableCell>{product.sold}</TableCell>
 
               <TableCell className="xl:pr-7.5">
                 <div className="flex items-center justify-end gap-x-3.5">
@@ -92,6 +98,13 @@ export async function TableProducts() {
           ))}
         </TableBody>
       </Table>
+
+      <AdminPagination 
+        totalPages={totalPages} 
+        currentPage={page}
+        totalItems={total}
+        pageSize={10}
+      />
     </div>
   );
 }

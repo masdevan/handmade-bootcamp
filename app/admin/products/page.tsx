@@ -9,7 +9,13 @@ export const metadata: Metadata = {
   title: "Products",
 };
 
-const TablesPage = () => {
+export const dynamic = "force-dynamic";
+
+const TablesPage = ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }> | { page?: string };
+}) => {
   return (
     <>
       <Breadcrumb
@@ -21,7 +27,7 @@ const TablesPage = () => {
 
       <div className="space-y-10">
         <Suspense fallback={<TableProductsSkeleton />}>
-          <TableProducts />
+          <TableProducts searchParams={searchParams} />
         </Suspense>
       </div>
     </>
