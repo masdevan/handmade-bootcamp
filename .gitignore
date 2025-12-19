@@ -8,3 +8,5 @@ prisma/generated/
 prisma/generated/prisma/
 prisma/generated/prisma/*
 prisma/migrations/
+
+public/images/product/*
