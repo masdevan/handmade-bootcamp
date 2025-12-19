@@ -6,8 +6,10 @@ import { useId, useState } from "react";
 
 type PropsType = {
   label: string;
+  name: string;
   items: { value: string; label: string }[];
   prefixIcon?: React.ReactNode;
+  required?: boolean;
   className?: string;
 } & (
   | { placeholder?: string; defaultValue: string }
@@ -17,6 +19,8 @@ type PropsType = {
 export function Select({
   items,
   label,
+  required,
+  name,
   defaultValue,
   placeholder,
   prefixIcon,
@@ -33,6 +37,7 @@ export function Select({
         className="block text-body-sm font-medium text-dark dark:text-white"
       >
         {label}
+        {required && <span className="ml-1 select-none text-red">*</span>}
       </label>
 
       <div className="relative">
@@ -44,6 +49,8 @@ export function Select({
 
         <select
           id={id}
+          required={required}
+          name={name}
           defaultValue={defaultValue || ""}
           onChange={() => setIsOptionSelected(true)}
           className={cn(
