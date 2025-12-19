@@ -9,8 +9,9 @@ import {
 import Image from "next/image";
 import { getTopProducts } from "../fetch";
 import Link from "next/link";
-import { TrashIcon, PencilSquareIcon, PreviewIcon } from "@/assets/admin/icons";
+import { PencilSquareIcon, PreviewIcon } from "@/assets/admin/icons";
 import { AdminPagination } from "@/components/admin/Pagination";
+import { DeleteProductButton } from "./deleteButton";
 
 export async function TableProducts({
     searchParams,
@@ -88,10 +89,7 @@ export async function TableProducts({
                     <PencilSquareIcon />
                   </Link>
 
-                  <button className="hover:text-primary">
-                    <span className="sr-only">Delete Invoice</span>
-                    <TrashIcon />
-                  </button>
+                  <DeleteProductButton productId={product.id} />
                 </div>
               </TableCell>
             </TableRow>

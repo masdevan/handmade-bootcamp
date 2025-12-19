@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import path from 'path'
 import fs from 'fs/promises'
+import { revalidatePath } from 'next/cache'
 
 const MAX_IMAGE_SIZE = 1000 * 1024 // 1MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
@@ -276,4 +277,42 @@ function validateImages(images: File[]): ActionState {
 
 function error(message: string): ActionState {
   return { success: false, message }
+}
+
+export async function deleteProduct(productId: number) {
+  try {
+    const images = await prisma.productImage.findMany({
+      where: { productId },
+    })
+
+    for (const image of images) {
+      const filePath = path.join(
+        process.cwd(),
+        'public',
+        image.url
+      )
+
+      try {
+        await fs.unlink(filePath)
+      } catch {
+      }
+    }
+
+    await prisma.productImage.deleteMany({
+      where: { productId },
+    })
+
+    await prisma.product.delete({
+      where: { id: productId },
+    })
+
+    revalidatePath('/admin/products')
+
+    return { success: true }
+  } catch (error) {
+    return {
+      success: false,
+      message: 'Failed to delete product',
+    }
+  }
 }
