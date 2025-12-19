@@ -79,13 +79,16 @@ export async function TableProducts({
 
               <TableCell className="xl:pr-7.5">
                 <div className="flex items-center justify-end gap-x-3.5">
-                  <button className="hover:text-primary">
-                    <span className="sr-only">View Invoice</span>
+                  <Link
+                    href={`/admin/products/${product.id}`}
+                    className="hover:text-primary"
+                  >
+                    <span className="sr-only">View Product</span>
                     <PreviewIcon />
-                  </button>
+                  </Link>
 
                   <Link href={`products/${product.id}/edit`} className="hover:text-primary">
-                    <span className="sr-only">Download Invoice</span>
+                    <span className="sr-only">Edit Product</span>
                     <PencilSquareIcon />
                   </Link>
 
