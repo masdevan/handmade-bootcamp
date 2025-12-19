@@ -6,9 +6,8 @@ import { ProductForm } from '../../components/productForm'
 export default async function Page({
   params,
 }: {
-    params: Promise<{ id: string }>
+  params: Promise<{ id: string }>
 }) {
-  console.log('params',params)
   const { id } = await params
   const product = await getProductById(Number(id))
 
@@ -27,7 +26,10 @@ export default async function Page({
       />
 
       <ProductForm
-        action={updateProduct.bind(null, product.id)}
+        action={updateProduct}
+        isEdit={true}
+        productId={product.id}
+        existingImages={product.images || []}
         defaultValues={{
           name: product.name,
           basePrice: product.basePrice,

@@ -91,27 +91,160 @@ export async function createProduct(
    UPDATE PRODUCT
 =========================== */
 export async function updateProduct(
-  productId: number,
   prevState: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  /* ---------- GET PRODUCT ID ---------- */
+  const productIdParam = formData.get('productId')?.toString()
+  if (!productIdParam) {
+    return error('Product ID is required')
+  }
+  
+  const productId = Number(productIdParam)
+  if (isNaN(productId)) {
+    return error('Invalid product ID')
+  }
+
+  /* ---------- BASIC FIELDS ---------- */
   const name = formData.get('name')?.toString().trim()
   const basePrice = Number(formData.get('basePrice'))
   const category = formData.get('category')?.toString()
+  const description = formData.get('description')?.toString() || ''
+  const materials = formData.get('materials')?.toString() || ''
+  const notes = formData.get('notes')?.toString() || ''
 
+  const images = formData.getAll('images') as File[]
+  const deleteImagesParam = formData.get('deleteImages')?.toString()
+
+  /* ---------- FIELD VALIDATION ---------- */
   if (!name || !category || Number.isNaN(basePrice)) {
-    return error('Invalid product data')
+    return error('Please fill all required fields')
   }
 
+  if (basePrice <= 0) {
+    return error('Base price must be greater than 0')
+  }
+
+  /* ---------- DELETE MARKED IMAGES ---------- */
+  let deletedPrimaryImage = false
+  if (deleteImagesParam) {
+    const imageIdsToDelete = deleteImagesParam
+      .split(',')
+      .map(id => Number(id.trim()))
+      .filter(id => !isNaN(id) && id > 0)
+    
+    if (imageIdsToDelete.length > 0) {
+      const imagesToDelete = await prisma.productImage.findMany({
+        where: {
+          id: { in: imageIdsToDelete },
+          productId,
+        },
+      })
+      
+      deletedPrimaryImage = imagesToDelete.some(img => img.isPrimary)
+
+      await prisma.productImage.deleteMany({
+        where: {
+          id: { in: imageIdsToDelete },
+          productId,
+        },
+      })
+    }
+  }
+
+  /* ---------- IMAGE VALIDATION (jika ada yang diupload) ---------- */
+  const hasNewImages = images.length > 0 && images.some(img => img.size > 0)
+  if (hasNewImages) {
+    const imageValidation = validateImages(images.filter(img => img.size > 0))
+    if (!imageValidation.success) {
+      return imageValidation
+    }
+  }
+
+  /* ---------- UPDATE PRODUCT ---------- */
   await prisma.product.update({
     where: { id: productId },
     data: {
       name,
       basePrice,
       category,
+      description,
+      materials,
+      notes,
       updatedAt: new Date(),
     },
   })
+
+  /* ---------- HANDLE IMAGE UPDATES ---------- */
+  if (hasNewImages) {
+    const uploadDir = path.join(process.cwd(), 'public/images/product')
+    await fs.mkdir(uploadDir, { recursive: true })
+
+    const uploadedUrls: string[] = []
+
+    for (const image of images) {
+      if (image.size === 0) continue
+
+      const buffer = Buffer.from(await image.arrayBuffer())
+      const ext = image.name.split('.').pop() || 'jpg'
+      const fileName = `product-${productId}-${Date.now()}-${Math.random()
+        .toString(36)
+        .slice(2)}.${ext}`
+
+      await fs.writeFile(path.join(uploadDir, fileName), buffer)
+      uploadedUrls.push(`/images/product/${fileName}`)
+    }
+
+    await prisma.productImage.deleteMany({
+      where: { productId }
+    })
+
+    if (uploadedUrls.length > 0) {
+      await prisma.productImage.createMany({
+        data: uploadedUrls.map((url, index) => ({
+          productId,
+          url,
+          isPrimary: index === 0,
+        })),
+      })
+    }
+  } else {
+    if (deletedPrimaryImage) {
+      const remainingImages = await prisma.productImage.findMany({
+        where: { productId },
+        orderBy: { id: 'asc' },
+        take: 1,
+      })
+
+      if (remainingImages.length > 0) {
+        await prisma.productImage.update({
+          where: { id: remainingImages[0].id },
+          data: { isPrimary: true },
+        })
+      }
+    }
+  }
+
+  const hasPrimaryImage = await prisma.productImage.findFirst({
+    where: {
+      productId,
+      isPrimary: true,
+    },
+  })
+
+  if (!hasPrimaryImage) {
+    const firstImage = await prisma.productImage.findFirst({
+      where: { productId },
+      orderBy: { id: 'asc' },
+    })
+
+    if (firstImage) {
+      await prisma.productImage.update({
+        where: { id: firstImage.id },
+        data: { isPrimary: true },
+      })
+    }
+  }
 
   redirect('/admin/products')
 }
