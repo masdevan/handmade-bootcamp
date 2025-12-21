@@ -5,7 +5,7 @@ interface ProductCardProps {
   product: {
     id: string
     name: string
-    price: number
+    basePrice: number
     discount_percent: number
     images: {
       url: string
@@ -16,7 +16,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const discountedPrice = product.price * (1 - product.discount_percent / 100)
   const imageUrl = product.images && product.images.length > 0 
     ? product.images[0].url 
     : "/placeholder.svg"
@@ -48,10 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
           {/* Price - always at bottom */}
           <div className="flex items-center gap-3">
-            <span className="text-lg font-bold text-[#584e46]">${discountedPrice.toFixed(2)}</span>
-            {product.discount_percent > 0 && (
-              <span className="text-sm text-[#584e46] line-through">${product.price.toFixed(2)}</span>
-            )}
+              <span className="text-sm text-[#584e46]">${product.basePrice.toFixed(2)}</span>
           </div>
         </div>
       </div>
