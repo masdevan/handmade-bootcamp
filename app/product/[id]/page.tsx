@@ -20,7 +20,7 @@ interface Product {
   id: number
   name: string
   description: string
-  price: number
+  basePrice: number
   discount_percent: number
   image_url: string
   stock: number
@@ -29,7 +29,7 @@ interface Product {
 export default function ProductPage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
   const { id } = use(params)
 
@@ -51,9 +51,8 @@ export default function ProductPage({
         setProduct(data)
 
         const currentPrice =
-          data.price * (1 - data.discount_percent / 100)
+          data.basePrice * (1 - data.discount_percent / 100)
 
-        // Dummy price history for chart
         setPriceHistory([
           { time: "10:00", price: currentPrice - 8 },
           { time: "11:00", price: currentPrice - 3 },
@@ -83,13 +82,13 @@ export default function ProductPage({
   }
 
   const discountedPrice =
-    product.price * (1 - product.discount_percent / 100)
+    product.basePrice * (1 - product.discount_percent / 100)
 
   const handleAddToCart = () => {
     addToCart({
       id: product.id,
       name: product.name,
-      price: product.price,
+      price: product.basePrice,
       discount_percent: product.discount_percent,
       quantity,
       image_url: product.image_url,
@@ -115,7 +114,7 @@ export default function ProductPage({
               Home
             </Link>
             <span className="mx-2 text-[#b89680]">/</span>
-            <span className="text-[#866f60] font-medium">Mbak Eci Anjay Mabar</span>
+            <span className="text-[#866f60] font-medium">{product.name}</span>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
@@ -132,36 +131,18 @@ export default function ProductPage({
 
             {/* Product Info */}
             <div className="animate-slide-in-right">
-              <h1 className="text-4xl font-bold text-[#b89680]">Guntur Sinar Raya</h1>
-              <p className="text-[#9e816e] mb-6 text-lg leading-relaxed">Dengan membeli produk ini owner akan kaya, Dengan membeli produk ini owner akan kaya, Dengan membeli produk ini owner akan kaya, Dengan membeli produk ini owner akan kaya</p>
+              <h1 className="text-4xl font-bold text-[#b89680]">{product.name}</h1>
+              <p className="text-[#9e816e] mb-6 text-lg leading-relaxed">{product.description}</p>
 
               {/* Price */}
               <div className="flex items-center gap-4 mb-8 pb-8 border-b border-black/10">
-                <span className="text-5xl font-bold text-[#67564a]">$986</span>
+                <span className="text-5xl font-bold text-[#67564a]">${product.basePrice}</span>
                 {product.discount_percent > 0 && (
                   <>
-                    <span className="text-2xl text-gray-500 line-through">${product.price.toFixed(2)}</span>
+                    <span className="text-2xl text-gray-500 line-through">${product.basePrice.toFixed(2)}</span>
                     <span className="px-4 py-2 bg-red-600 text-white font-bold">Save {product.discount_percent}%</span>
                   </>
                 )}
-              </div>
-
-              {/* Stock & Rating */}
-              <div className="mb-8 space-y-3 pb-8 border-b border-black/10">
-                <p className="text-lg">
-                  <span className="font-bold text-[#67564a]">Availability: </span>
-                  <span className={product.stock > 0 ? "text-[#ac917e] font-bold" : "text-[#a86b40] font-bold"}>
-                    {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
-                  </span>
-                </p>
-                <p className="text-lg">
-                  <span className="font-bold text-[#67564a]">SKU: </span>
-                  <span className="text-[#ac917e]">DG-{String(product.id).padStart(4, "0")}</span>
-                </p>
-                <p className="text-lg">
-                  <span className="font-bold text-[#67564a]">Rating: </span>
-                  <span className="text-[#ac917e]">★★★★★ (245 reviews)</span>
-                </p>
               </div>
 
               {/* Quantity */}
@@ -213,7 +194,7 @@ export default function ProductPage({
               </div>
 
               {/* Product Features */}
-              <div className="mt-12 pt-8 border-t border-black/10">
+              {/* <div className="mt-12 pt-8 border-t border-black/10">
                 <h3 className="font-bold text-[#7e6959] text-lg mb-4">Product Features</h3>
                 <ul className="space-y-2 text-gray-700">
                   <li className="text-[#7e6959]">✓ High quality materials</li>
@@ -221,71 +202,7 @@ export default function ProductPage({
                   <li className="text-[#7e6959]">✓ Free shipping worldwide</li>
                   <li className="text-[#7e6959]">✓ 30-day money-back guarantee</li>
                 </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Price History Chart */}
-          <div className="mt-16 pt-16 border-t border-black/10">
-            <h3 className="text-2xl text-[#866f60] font-bold mb-8">Price History (Last 24h)</h3>
-            <div className="bg-white">
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={priceHistory}>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="#e6e1dd"
-                  />
-
-                  <XAxis
-                    dataKey="time"
-                    stroke="#866f60"
-                    tick={{ fill: "#866f60", fontSize: 12 }}
-                  />
-
-                  <YAxis
-                    stroke="#866f60"
-                    tick={{ fill: "#866f60", fontSize: 12 }}
-                  />
-
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      border: "1px solid #866f60",
-                      borderRadius: 0,
-                      color: "#866f60",
-                    }}
-                    labelStyle={{ color: "#866f60" }}
-                    formatter={(value) => [`$${(value as number).toFixed(2)}`, "Price"]}
-                  />
-
-                  <Line
-                    type="monotone"
-                    dataKey="price"
-                    stroke="#866f60"
-                    strokeWidth={2.5}
-                    dot={{ fill: "#866f60", r: 4 }}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-
-              <p className="text-sm text-[#866f60] mt-6 flex flex-wrap gap-2">
-                <span>
-                  <strong>Current:</strong>{" "}
-                  $
-                  {(priceHistory[priceHistory.length - 1]?.price || discountedPrice).toFixed(2)}
-                </span>
-                •
-                <span>
-                  <strong>Highest:</strong>{" "}
-                  ${Math.max(...priceHistory.map((p) => p.price)).toFixed(2)}
-                </span>
-                •
-                <span>
-                  <strong>Lowest:</strong>{" "}
-                  ${Math.min(...priceHistory.map((p) => p.price)).toFixed(2)}
-                </span>
-              </p>
+              </div> */}
             </div>
           </div>
         </div>

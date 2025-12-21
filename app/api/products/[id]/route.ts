@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server"
-import { MOCK_PRODUCTS } from "@/lib/mock-data"
+import { prisma } from "@/lib/prisma"
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const product = MOCK_PRODUCTS.find((p) => p.id === params.id)
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+
+  const product = await prisma.product.findUnique({
+    where: {
+      id: Number(id), 
+    },
+  })
+
 
   if (!product) {
     return NextResponse.json({ error: "Product not found" }, { status: 404 })

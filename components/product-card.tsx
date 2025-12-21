@@ -47,7 +47,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
           {/* Price - always at bottom */}
           <div className="flex items-center gap-3">
-              <span className="text-sm text-[#584e46]">${product.basePrice.toFixed(2)}</span>
+              <span className="text-sm text-[#584e46]">${product.basePrice}</span>
           </div>
         </div>
       </div>
