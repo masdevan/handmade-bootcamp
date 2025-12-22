@@ -47,7 +47,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
   getTotalPrice: () => {
     const { items } = get()
     return items.reduce((total, item) => {
-      const price = item.price * (1 - item.discount_percent / 100)
+      const price = item.price
       return total + price * item.quantity
     }, 0)
   },

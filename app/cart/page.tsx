@@ -42,7 +42,7 @@ export default function CartPage() {
               {/* Cart Items */}
               <div className="space-y-4">
                 {items.map((item, index) => {
-                  const discountedPrice = item.price * (1 - item.discount_percent / 100)
+                  const discountedPrice = item.price
                   const itemTotal = discountedPrice * item.quantity
 
                   return (

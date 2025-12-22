@@ -6,25 +6,29 @@ import { Footer } from "@/components/footer"
 import { useCartStore } from "@/lib/cart-store"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts"
+import { ShowcaseSection } from '@/components/admin/Layouts/showcase-section'
+import Image from "next/image"
 
 interface Product {
   id: number
   name: string
   description: string
   basePrice: number
-  discount_percent: number
-  image_url: string
-  stock: number
+  category: string
+  materials: string
+  notes: string
+  images: ProductImage[]
+  createdAt: string
+  updatedAt: string
 }
+
+interface ProductImage {
+  id: number
+  productId: number
+  url: string
+  isPrimary: boolean
+}
+
 
 export default function ProductPage({
   params,
@@ -35,6 +39,7 @@ export default function ProductPage({
 
   const [product, setProduct] = useState<Product | null>(null)
   const [quantity, setQuantity] = useState(1)
+  const [primaryImage, setPrimaryImage] = useState<string | null>(null)
   const [priceHistory, setPriceHistory] = useState<
     { time: string; price: number }[]
   >([])
@@ -45,25 +50,30 @@ export default function ProductPage({
 
   useEffect(() => {
     const fetchProduct = async () => {
-      try {
-        const res = await fetch(`/api/products/${id}`)
-        const data: Product = await res.json()
-        setProduct(data)
+      const res = await fetch(`/api/products/${id}`)
+      const data: Product = await res.json()
+      setProduct(data)
 
-        const currentPrice =
-          data.basePrice * (1 - data.discount_percent / 100)
+      const currentPrice = data.basePrice
+      const primaryImage =
+        data.images.find((img) => img.isPrimary)?.url ??
+        data.images[0]?.url ??
+        null
 
-        setPriceHistory([
-          { time: "10:00", price: currentPrice - 8 },
-          { time: "11:00", price: currentPrice - 3 },
-          { time: "12:00", price: currentPrice - 5 },
-          { time: "13:00", price: currentPrice + 2 },
-          { time: "14:00", price: currentPrice - 1 },
-          { time: "15:00", price: currentPrice + 4 },
-        ])
-      } catch (error) {
-        console.error("Failed to fetch product:", error)
-      }
+      setPrimaryImage(primaryImage)
+
+      const otherImages = primaryImage
+        ? data.images.filter((img) => img.id !== primaryImage.id)
+        : []
+
+      setPriceHistory([
+        { time: "10:00", price: currentPrice - 8 },
+        { time: "11:00", price: currentPrice - 3 },
+        { time: "12:00", price: currentPrice - 5 },
+        { time: "13:00", price: currentPrice + 2 },
+        { time: "14:00", price: currentPrice - 1 },
+        { time: "15:00", price: currentPrice + 4 },
+      ])
     }
 
     fetchProduct()
@@ -81,17 +91,13 @@ export default function ProductPage({
     )
   }
 
-  const discountedPrice =
-    product.basePrice * (1 - product.discount_percent / 100)
-
   const handleAddToCart = () => {
     addToCart({
       id: product.id,
       name: product.name,
       price: product.basePrice,
-      discount_percent: product.discount_percent,
       quantity,
-      image_url: product.image_url,
+      image_url: primaryImage ?? "/images/product/eci.jpg",
     })
 
     setIsAdded(true)
@@ -121,9 +127,11 @@ export default function ProductPage({
             {/* Product Image */}
             <div className="animate-slide-in-left">
               <div className="bg-gray-100 aspect-square flex rounded-2xl items-center justify-center overflow-hidden">
-                <img
-                  src={product.image_url || "/images/product/eci.jpg"}
+                <Image
+                  src={primaryImage ?? "/images/product/eci.jpg"}
                   alt={product.name}
+                  width={600}
+                  height={600}
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                 />
               </div>
