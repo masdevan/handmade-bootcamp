@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -244,13 +245,59 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isProcessing}
-                  className="w-full px-8 py-4 bg-black text-white font-bold text-lg hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
+                <PayPalScriptProvider
+                  options={{
+                    clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+                    currency: "USD",
+                    intent: 'capture'
+                  }}
                 >
-                  {isProcessing ? "Processing..." : "Complete Purchase"}
-                </button>
+                  <PayPalButtons
+                    style={{ layout: "vertical" }}
+                    createOrder={async () => {
+                      const res = await fetch("/api/paypal/create-order", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          total: totalPrice * 1.1, // KIRIM NUMBER
+                        }),
+                      })
+
+                      const text = await res.text()
+                      if (!text) throw new Error("Empty response from server")
+
+                      const data = JSON.parse(text)
+                      return data.id
+                    }}
+
+                    onApprove={async (data) => {
+                      const res = await fetch("/api/paypal/capture-order", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          orderID: data.orderID,
+                        }),
+                      })
+
+                      const text = await res.text()
+                      if (!res.ok) throw new Error(text || "Capture failed")
+
+                      const details = JSON.parse(text)
+
+                      console.log("CAPTURE RESULT:", details)
+
+                      clearCart()
+                      router.push("/success")
+                    }}
+
+
+                    onError={(err) => {
+                      console.error(err)
+                      alert("Payment failed")
+                    }}
+                  />
+                </PayPalScriptProvider>
+
               </form>
             </div>
 
@@ -261,7 +308,7 @@ export default function CheckoutPage() {
 
                 <div className="space-y-4 mb-6 max-h-96 overflow-y-auto">
                   {items.map((item) => {
-                    const discountedPrice = item.price * (1 - item.discount_percent / 100)
+                    const discountedPrice = item.price
                     const itemTotal = discountedPrice * item.quantity
 
                     return (
