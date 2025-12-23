@@ -5,6 +5,8 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Meow_Script } from "next/font/google"
 import Image from "next/image"
+import { useSession } from "next-auth/react"
+import { UserAvatar } from "./user-avatar"
 
 const meowScript = Meow_Script({
   subsets: ["latin"],
@@ -14,6 +16,7 @@ const meowScript = Meow_Script({
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   const menuItems = [
     { label: "Home", href: "/" },
@@ -47,12 +50,17 @@ export function Header() {
             <Link href="/cart" className="text-[#C5A48E] px-6 py-2 outline outline-[#C5A48E] hover:bg-[#a18978] hover:text-white transition-colors font-medium">
               Cart
             </Link>
-            <Link
-              href="/login"
-              className="px-6 py-2 bg-[#C5A48E] outline text-white outline-[#C5A48E] hover:outline-[#a18978] hover:bg-[#a18978] transition-colors font-medium"
-            >
-              Login
-            </Link>
+
+            {status === "loading" ? null : !session ? (
+              <Link
+                href="/login"
+                className="px-6 py-2 bg-[#C5A48E] outline text-white outline-[#C5A48E] hover:outline-[#a18978] hover:bg-[#a18978] transition-colors font-medium"
+              >
+                Login
+              </Link>
+              ) : (
+              <UserAvatar user={session.user} />
+            )}
           </div>
 
           <button
