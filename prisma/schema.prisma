@@ -16,6 +16,7 @@ model User {
   role         String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  deletedAt    DateTime?
 
   resetToken         String?
   resetTokenExpiry   DateTime?

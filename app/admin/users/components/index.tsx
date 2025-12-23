@@ -7,9 +7,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { TrashIcon, PencilSquareIcon, PreviewIcon } from "@/assets/admin/icons";
+import { PencilSquareIcon } from "@/assets/admin/icons";
 import { AdminPagination } from "@/components/admin/Pagination";
 import { headers } from "next/headers";
+import { SuspendUserButton } from "./deleteButton";
 
 export async function TableUsers({
   searchParams,
@@ -62,6 +63,7 @@ export async function TableUsers({
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead>Created At</TableHead>
             <TableHead className="pr-5 text-right sm:pr-6 xl:pr-7.5">
               Actions
@@ -86,6 +88,18 @@ export async function TableUsers({
               <TableCell>{user.role}</TableCell>
 
               <TableCell>
+                <span
+                  className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    user.status === 'aktif'
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                  }`}
+                >
+                  {user.status === 'aktif' ? 'Aktif' : 'Nonaktif'}
+                </span>
+              </TableCell>
+
+              <TableCell>
                 {new Date(user.createdAt).toLocaleDateString('id-ID', {
                   year: 'numeric',
                   month: 'short',
@@ -101,10 +115,7 @@ export async function TableUsers({
                     <PencilSquareIcon />
                   </Link>
 
-                  <button className="hover:text-primary">
-                    <span className="sr-only">Delete User</span>
-                    <TrashIcon />
-                  </button>
+                  <SuspendUserButton userId={user.id} status={user.status} />
                 </div>
               </TableCell>
             </TableRow>
