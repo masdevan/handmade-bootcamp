@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { Trash2 } from "lucide-react"
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false)
@@ -42,6 +43,7 @@ export default function CartPage() {
               {/* Cart Items */}
               <div className="space-y-4">
                 {items.map((item, index) => {
+                  console.log(item)
                   const discountedPrice = item.price
                   const itemTotal = discountedPrice * item.quantity
 
@@ -63,6 +65,8 @@ export default function CartPage() {
                         />
                         <div className="flex-1">
                           <h3 className="font-bold text-lg mb-2">{item.name}</h3>
+                          {/* <p className="text-gray-600">${item.discount_percent}%</p> */}
+                          <p className="text-gray-600 mb-2 text-sm">{item.description}</p>
                           <p className="text-gray-600">
                             ${discountedPrice.toFixed(2)} x {item.quantity}
                           </p>
@@ -95,9 +99,10 @@ export default function CartPage() {
                         {/* Remove Button */}
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="px-4 py-2 bg-red-600 text-white font-bold hover:bg-red-700 transition-colors"
+                          className="p-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                          aria-label="Remove item"
                         >
-                          Remove
+                          <Trash2 className="w-5 h-5 text-white" />
                         </button>
                       </div>
                     </div>
@@ -127,8 +132,10 @@ export default function CartPage() {
                   </button>
                   <button
                     onClick={() => router.push("/checkout")}
-                    className="flex-1 px-8 py-4 bg-black text-white font-bold hover:bg-gray-800 transition-colors"
-                  >
+                    className="flex-1 px-8 py-4 bg-[#C5A48E] text-white border-[#C5A48E] border
+            font-bold cursor-pointer
+            hover:bg-transparent hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border
+            transition-colors duration-200">
                     Checkout
                   </button>
                 </div>
