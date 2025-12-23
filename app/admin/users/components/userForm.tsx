@@ -34,6 +34,7 @@ export function UserForm({ isEdit = false, userId, defaultValues }: UserFormProp
       email: formData.get('email')?.toString() || '',
       phone: formData.get('phone')?.toString() || '',
       role: formData.get('role')?.toString() || '',
+      ...(isEdit ? {} : { password: formData.get('password')?.toString() || '' }),
     }
 
     try {
@@ -108,6 +109,16 @@ export function UserForm({ isEdit = false, userId, defaultValues }: UserFormProp
           required
           defaultValue={defaultValues?.email}
         />
+
+        {!isEdit && (
+          <InputGroup
+            name="password"
+            label="Password"
+            type="password"
+            placeholder="Enter password"
+            required
+          />
+        )}
 
         <InputGroup
           name="phone"
