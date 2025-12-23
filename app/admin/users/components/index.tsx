@@ -10,7 +10,7 @@ import Link from "next/link";
 import { PencilSquareIcon } from "@/assets/admin/icons";
 import { AdminPagination } from "@/components/admin/Pagination";
 import { headers } from "next/headers";
-import { DeactivateUserButton } from "./deleteButton";
+import { SuspendUserButton } from "./deleteButton";
 
 export async function TableUsers({
   searchParams,
@@ -115,7 +115,7 @@ export async function TableUsers({
                     <PencilSquareIcon />
                   </Link>
 
-                  <DeactivateUserButton userId={user.id} />
+                  <SuspendUserButton userId={user.id} status={user.status} />
                 </div>
               </TableCell>
             </TableRow>

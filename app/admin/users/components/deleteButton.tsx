@@ -13,63 +13,96 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { TrashIcon } from '@/assets/admin/icons'
+import { TrashIcon, CheckIcon } from '@/assets/admin/icons'
 
-export function DeactivateUserButton({ userId }: { userId: number }) {
+export function SuspendUserButton({ 
+  userId, 
+  status 
+}: { 
+  userId: number
+  status: 'aktif' | 'nonaktif'
+}) {
   const [open, setOpen] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
   const router = useRouter()
 
-  async function handleDeactivate() {
-    setIsDeleting(true)
+  const isActive = status === 'aktif'
+
+  async function handleToggle() {
+    setIsProcessing(true)
     try {
+      const method = isActive ? 'DELETE' : 'PATCH'
       const response = await fetch(`/api/users?id=${userId}`, {
-        method: 'DELETE',
+        method,
       })
 
       if (!response.ok) {
         const data = await response.json()
-        alert(data.message || 'Failed to deactivate user')
+        alert(
+          data.message ||
+          `Failed to ${isActive ? 'suspend' : 'activate'} user`
+        )
         return
       }
 
       setOpen(false)
       router.refresh()
     } catch (error) {
-      console.error('Error deactivating user:', error)
-      alert('An error occurred while deactivating the user')
+      console.error(
+        `Error ${isActive ? 'suspending' : 'activating'} user:`,
+        error
+      )
+      alert(
+        `An error occurred while ${isActive ? 'suspending' : 'activating'} the user`
+      )
     } finally {
-      setIsDeleting(false)
+      setIsProcessing(false)
     }
   }
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <button className="hover:text-red-500">
-          <span className="sr-only">Deactivate User</span>
-          <TrashIcon />
+        <button className={isActive ? 'hover:text-red-500' : 'hover:text-green-500'}>
+          <span className="sr-only">
+            {isActive ? 'Suspend User' : 'Activate User'}
+          </span>
+          {isActive ? <TrashIcon /> : <CheckIcon />}
         </button>
       </AlertDialogTrigger>
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Nonaktif User?</AlertDialogTitle>
+          <AlertDialogTitle>
+            {isActive ? 'Suspend User?' : 'Activate User?'}
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to suspend this user? The user will no longer be able to access the system.
+            {isActive
+              ? 'Are you sure you want to suspend this user? The user will temporarily lose access to the system.'
+              : 'Are you sure you want to activate this user? The user will regain access to the system.'}
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>
+          <AlertDialogCancel disabled={isProcessing}>
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            onClick={handleDeactivate}
-            disabled={isDeleting}
-            className="bg-red-500 hover:bg-red-600"
+            onClick={handleToggle}
+            disabled={isProcessing}
+            className={
+              isActive
+                ? 'bg-red-500 hover:bg-red-600'
+                : 'bg-green-500 hover:bg-green-600'
+            }
           >
-            {isDeleting ? 'Deactivating...' : 'Deactivate'}
+            {isProcessing
+              ? isActive
+                ? 'Suspending...'
+                : 'Activating...'
+              : isActive
+                ? 'Suspend'
+                : 'Activate'}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

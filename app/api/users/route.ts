@@ -113,6 +113,48 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PATCH(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+
+    if (!id) {
+      return NextResponse.json(
+        { message: 'User id is required' },
+        { status: 400 }
+      )
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { id: Number(id) },
+    })
+
+    if (!existingUser) {
+      return NextResponse.json(
+        { message: 'User not found' },
+        { status: 404 }
+      )
+    }
+
+    await prisma.user.update({
+      where: { id: Number(id) },
+      data: {
+        deletedAt: null,
+      },
+    })
+
+    return NextResponse.json({
+      message: 'User activated successfully',
+    })
+  } catch (error) {
+    console.error(error)
+    return NextResponse.json(
+      { message: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
