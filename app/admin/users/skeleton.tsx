@@ -22,6 +22,7 @@ export function TableUsersSkeleton() {
             <TableHead>Email</TableHead>
             <TableHead>Phone</TableHead>
             <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead>Created At</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
