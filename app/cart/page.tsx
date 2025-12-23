@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Trash2 } from "lucide-react"
+import { MoveLeft, ShoppingCart, Trash2 } from "lucide-react"
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false)
@@ -24,9 +24,25 @@ export default function CartPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-white">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 lg:px-16 py-12">
-          <h1 className="text-4xl font-bold mb-12 animate-slide-in-down">Shopping Cart</h1>
+      <main className="py-4 px-4 md:px-8 lg:px-16 bg-white">
+        <div className="relative max-w-7xl m-auto py-3">
+          <h1 className="text-4xl md:text-5xl font-bold text-[#8e7768] mb-12 animate-slide-in-up">Shopping Cart</h1>
+
+        <div className="flex justify-between items-center">
+        <button
+            onClick={() => router.push("/")}
+            className="flex flex-row items-center gap-2 px-2 py-4 border border-none hover:text-[#C5A48E] text-black font-bold transition-colors text-left animate-slide-in-up">
+            <MoveLeft className="w-5 h-5" />
+            <span>Continue Shopping</span>
+        </button>
+
+        <button
+          onClick={() => clearCart()}
+          className="px-8 py-4 bg-red-600 text-white font-bold hover:bg-red-700 transition-colors"
+        >
+          Clear Cart
+        </button>
+        </div>
 
           {items.length === 0 ? (
             <div className="text-center py-20 animate-fade-in">
@@ -66,7 +82,7 @@ export default function CartPage() {
                         <div className="flex-1">
                           <h3 className="font-bold text-lg mb-2">{item.name}</h3>
                           {/* <p className="text-gray-600">${item.discount_percent}%</p> */}
-                          <p className="text-gray-600 mb-2 text-sm">{item.description}</p>
+                          <p className="text-gray-600 mb-2 text-sm">{item?.description}</p>
                           <p className="text-gray-600">
                             ${discountedPrice.toFixed(2)} x {item.quantity}
                           </p>
@@ -111,33 +127,56 @@ export default function CartPage() {
               </div>
 
               {/* Summary */}
-              <div className="border-t-2 border-black pt-8">
-                <div className="flex justify-between items-center mb-8">
-                  <span className="text-2xl font-bold">Total:</span>
-                  <span className="text-4xl font-bold text-black">${totalPrice.toFixed(2)}</span>
+              
+              <div className="border-t-2 border-black">
+              <div>
+            </div>
+
+                <div className="flex items-center">
+                  <div className="py-4 flex justify-end">
+                    <table className="table-fixed w-1/4">
+                      <tbody>
+                        <tr>
+                          <td className="text-left p-2">
+                            Total
+                          </td>
+                          <td className="p-4 text-right">
+                            ${totalPrice.toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-left p-2">
+                            Delivery Fee
+                          </td>
+                          <td className="p-4 text-right">
+                            Free
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-left p-2">
+                            Subtotal
+                          </td>
+                          <td className="p-4 text-right font-bold">
+                            ${totalPrice.toFixed(2)}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link
-                    href="/"
-                    className="flex-1 px-8 py-4 border border-black text-black font-bold hover:bg-black hover:text-white transition-colors text-center"
-                  >
-                    Continue Shopping
-                  </Link>
-                  <button
-                    onClick={() => clearCart()}
-                    className="flex-1 px-8 py-4 border border-red-600 text-red-600 font-bold hover:bg-red-600 hover:text-white transition-colors"
-                  >
-                    Clear Cart
-                  </button>
-                  <button
+                <div className="flex items-center justify-end">
+                <div className="py-4 flex justify-end">
+                <button
                     onClick={() => router.push("/checkout")}
-                    className="flex-1 px-8 py-4 bg-[#C5A48E] text-white border-[#C5A48E] border
-            font-bold cursor-pointer
-            hover:bg-transparent hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border
-            transition-colors duration-200">
-                    Checkout
+                    className="flex flex-row items-center gap-2 px-8 py-4 bg-[#C5A48E] text-white border-[#C5A48E] border
+                          font-bold cursor-pointer
+                          hover:bg-white hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border
+                          transition-colors duration-200">
+                    <ShoppingCart className="w-5 h-5 text-white hover:text-[#C5A48E]" />
+                    <span>Checkout</span>
                   </button>
+                  </div>
                 </div>
               </div>
             </div>
