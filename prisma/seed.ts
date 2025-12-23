@@ -27,6 +27,8 @@ async function seedUsers() {
         password: hashedPassword,
         phone: '08123456789',
         role: user.role,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     })
   }

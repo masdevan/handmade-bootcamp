@@ -9,7 +9,11 @@ export const metadata: Metadata = {
   title: "Users",
 };
 
-const TablesPage = () => {
+const TablesPage = ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }> | { page?: string };
+}) => {
   return (
     <>
       <Breadcrumb
@@ -21,7 +25,7 @@ const TablesPage = () => {
 
       <div className="space-y-10">
         <Suspense fallback={<TableUsersSkeleton />}>
-          <TableUsers />
+          <TableUsers searchParams={searchParams} />
         </Suspense>
       </div>
     </>
