@@ -25,7 +25,7 @@ export async function POST(req: Request) {
             {
               amount: {
                 currency_code: "USD",
-                value: Number(total).toFixed(2), // ✅ FIX
+                value: Number(total).toFixed(2), 
               },
             },
           ],

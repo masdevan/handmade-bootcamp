@@ -69,7 +69,7 @@ export function ProductGrid({ category = "all" }: { category?: "new" | "popular"
         <div className="flex justify-center mt-12">
           <button
             onClick={() => setDisplayCount((prev) => prev + 4)}
-            className="px-8 py-3 bg-black text-white font-bold hover:bg-gray-800 transition-colors duration-300"
+            className="px-8 py-3 bg-[#C5A48E] text-white font-bold hover:bg-[#a18978] transition-colors duration-300"
           >
             Show More Products
           </button>
