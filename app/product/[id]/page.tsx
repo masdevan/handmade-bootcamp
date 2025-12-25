@@ -5,6 +5,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { useCartStore } from "@/lib/cart-store"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { ShowcaseSection } from '@/components/admin/Layouts/showcase-section'
 import Image from "next/image"
@@ -46,6 +47,7 @@ export default function ProductPage({
   const [isAdded, setIsAdded] = useState(false)
 
   const router = useRouter()
+  const { data: session } = useSession()
   const addToCart = useCartStore((state) => state.addItem)
 
   useEffect(() => {
@@ -91,15 +93,23 @@ export default function ProductPage({
     )
   }
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: product.id,
-      name: product.name,
-      description: product.description,
-      price: product.basePrice,
-      quantity,
-      image_url: primaryImage ?? "/images/product/eci.jpg",
-    })
+  const handleAddToCart = async () => {
+    if (!session?.user?.id) {
+      router.push("/login")
+      return
+    }
+
+    await addToCart(
+      {
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.basePrice,
+        quantity,
+        image_url: primaryImage ?? "/images/product/eci.jpg",
+      },
+      Number(session.user.id)
+    )
 
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 2000)

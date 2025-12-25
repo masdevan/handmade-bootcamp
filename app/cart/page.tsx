@@ -6,16 +6,21 @@ import { Footer } from "@/components/footer"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { MoveLeft, ShoppingCart, Trash2 } from "lucide-react"
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false)
-  const { items, removeItem, updateQuantity, getTotalPrice, clearCart } = useCartStore()
+  const { items, removeItem, updateQuantity, getTotalPrice, clearCart, loadCart, loading, error } = useCartStore()
+  const { data: session } = useSession()
   const router = useRouter()
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+    if (session?.user?.id) {
+      loadCart(Number(session.user.id))
+    }
+  }, [session?.user?.id, loadCart])
 
   if (!mounted) return null
 
@@ -44,7 +49,15 @@ export default function CartPage() {
         </button>
         </div>
 
-          {items.length === 0 ? (
+          {loading ? (
+            <div className="text-center py-20 animate-fade-in">
+              <p className="text-2xl text-gray-600 mb-6">Loading cart...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center py-20 animate-fade-in">
+              <p className="text-2xl text-red-600 mb-6">{error}</p>
+            </div>
+          ) : items.length === 0 ? (
             <div className="text-center py-20 animate-fade-in">
               <p className="text-2xl text-gray-600 mb-6">Your cart is empty</p>
               <Link
@@ -59,13 +72,14 @@ export default function CartPage() {
               {/* Cart Items */}
               <div className="space-y-4">
                 {items.map((item, index) => {
-                  console.log(item)
+                  if (!item.cartItemId) return null
+                  
                   const discountedPrice = item.price
                   const itemTotal = discountedPrice * item.quantity
 
                   return (
                     <div
-                      key={item.id}
+                      key={item.cartItemId}
                       style={{
                         animation: `slideInUp 0.6s ease-out`,
                         animationDelay: `${index * 0.1}s`,
@@ -81,8 +95,7 @@ export default function CartPage() {
                         />
                         <div className="flex-1">
                           <h3 className="font-bold text-lg mb-2">{item.name}</h3>
-                          {/* <p className="text-gray-600">${item.discount_percent}%</p> */}
-                          <p className="text-gray-600 mb-2 text-sm">{item?.description}</p>
+                          <p className="text-gray-600 mb-2 text-sm line-clamp-2">{item?.description}</p>
                           <p className="text-gray-600">
                             ${discountedPrice.toFixed(2)} x {item.quantity}
                           </p>
@@ -93,15 +106,17 @@ export default function CartPage() {
                         {/* Quantity Controls */}
                         <div className="flex items-center border border-black/20">
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="px-3 py-2 hover:bg-gray-100"
+                            onClick={() => updateQuantity(item.cartItemId!, item.quantity - 1)}
+                            disabled={loading}
+                            className="px-3 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             -
                           </button>
                           <span className="px-4 py-2 font-bold">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="px-3 py-2 hover:bg-gray-100"
+                            onClick={() => updateQuantity(item.cartItemId!, item.quantity + 1)}
+                            disabled={loading}
+                            className="px-3 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             +
                           </button>
@@ -114,8 +129,9 @@ export default function CartPage() {
 
                         {/* Remove Button */}
                         <button
-                          onClick={() => removeItem(item.id)}
-                          className="p-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                          onClick={() => removeItem(item.cartItemId!)}
+                          disabled={loading}
+                          className="p-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           aria-label="Remove item"
                         >
                           <Trash2 className="w-5 h-5 text-white" />

@@ -16,7 +16,16 @@ export async function GET(request: Request) {
     const cart = await prisma.cartItem.findMany({
       where: { userId: Number(userId) },
       include: {
-        product: true,
+        product: {
+          include: {
+            images: {
+              orderBy: [
+                { isPrimary: 'desc' },
+                { id: 'asc' },
+              ],
+            },
+          },
+        },
       },
       orderBy: { id: 'desc' }
     })
@@ -53,7 +62,19 @@ export async function POST(request: Request) {
         variantColorId,
         variantSizeId,
         customRequest
-      }
+      },
+      include: {
+        product: {
+          include: {
+            images: {
+              orderBy: [
+                { isPrimary: 'desc' },
+                { id: 'asc' },
+              ],
+            },
+          },
+        },
+      },
     })
 
     return NextResponse.json({
