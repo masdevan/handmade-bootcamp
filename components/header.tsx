@@ -85,7 +85,9 @@ export function Header() {
               <User className="w-5 h-5" />
               <span>Login</span>
             </Link>
-          ) : null}
+          ) : (
+            <UserAvatar user={session.user} />
+          )}
 
           </div>
 
