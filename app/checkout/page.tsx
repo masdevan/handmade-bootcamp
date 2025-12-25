@@ -77,168 +77,61 @@ export default function CheckoutPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-white">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 lg:px-16 py-12">
-          <h1 className="text-4xl font-bold mb-12 animate-slide-in-down">Checkout</h1>
+      <main className="py-4 px-4 md:px-8 lg:px-16 bg-white">
+        <div className="relative max-w-7xl m-auto py-3">
+          <h1 className="text-4xl font-bold mb-10 animate-slide-in-down text-[#8e7768]">Checkout</h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Checkout Form */}
             <div className="lg:col-span-2 animate-fade-in">
               <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Billing Information */}
-                <div className="border border-black/10 p-8">
-                  <h2 className="text-2xl font-bold mb-6">Billing Information</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block font-bold mb-2">First Name</label>
-                      <input
-                        type="text"
-                        name="firstName"
-                        required
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-bold mb-2">Last Name</label>
-                      <input
-                        type="text"
-                        name="lastName"
-                        required
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-bold mb-2">Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-bold mb-2">Phone</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        required
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-
                 {/* Shipping Address */}
-                <div className="border border-black/10 p-8">
-                  <h2 className="text-2xl font-bold mb-6">Shipping Address</h2>
+                <div className="border border-[#8e7768]/20 p-8">
+                  <h2 className="text-2xl font-bold mb-6 text-[#8e7768]">Shipping Address</h2>
                   <div className="space-y-6">
                     <div>
-                      <label className="block font-bold mb-2">Street Address</label>
+                      <label className="block font-bold mb-2 text-[#8e7768]">Street Address</label>
                       <input
                         type="text"
                         name="address"
                         required
                         value={formData.address}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
+                        className="w-full px-4 py-3 border border-[#8e7768]/20 focus:border-[#8e7768] outline-none"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
-                        <label className="block font-bold mb-2">City</label>
+                        <label className="block font-bold mb-2 text-[#8e7768]">City</label>
                         <input
                           type="text"
                           name="city"
                           required
                           value={formData.city}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
+                          className="w-full px-4 py-3 border border-[#8e7768]/20 focus:border-[#8e7768] outline-none"
                         />
                       </div>
                       <div>
-                        <label className="block font-bold mb-2">State</label>
+                        <label className="block font-bold mb-2 text-[#8e7768]">State</label>
                         <input
                           type="text"
                           name="state"
                           required
                           value={formData.state}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
+                          className="w-full px-4 py-3 border border-[#8e7768]/20 focus:border-[#8e7768] outline-none"
                         />
                       </div>
                       <div>
-                        <label className="block font-bold mb-2">ZIP Code</label>
+                        <label className="block font-bold mb-2 text-[#8e7768]">ZIP Code</label>
                         <input
                           type="text"
                           name="zipCode"
                           required
                           value={formData.zipCode}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Payment Information */}
-                <div className="border border-black/10 p-8">
-                  <h2 className="text-2xl font-bold mb-6">Payment Information</h2>
-                  <div className="space-y-6">
-                    <div>
-                      <label className="block font-bold mb-2">Cardholder Name</label>
-                      <input
-                        type="text"
-                        name="cardName"
-                        required
-                        value={formData.cardName}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-bold mb-2">Card Number</label>
-                      <input
-                        type="text"
-                        name="cardNumber"
-                        placeholder="1234 5678 9012 3456"
-                        required
-                        value={formData.cardNumber}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-6">
-                      <div>
-                        <label className="block font-bold mb-2">Expiry Date</label>
-                        <input
-                          type="text"
-                          name="expiry"
-                          placeholder="MM/YY"
-                          required
-                          value={formData.expiry}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block font-bold mb-2">CVV</label>
-                        <input
-                          type="text"
-                          name="cvv"
-                          placeholder="123"
-                          required
-                          value={formData.cvv}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-black/20 focus:border-black outline-none"
+                          className="w-full px-4 py-3 border border-[#8e7768]/20 focus:border-[#8e7768] outline-none"
                         />
                       </div>
                     </div>
@@ -303,8 +196,8 @@ export default function CheckoutPage() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1 animate-fade-in">
-              <div className="bg-white border border-black/10 p-8 sticky top-24">
-                <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
+              <div className="bg-white border border-[#8e7768]/20 p-8 sticky top-24">
+                <h2 className="text-2xl font-bold mb-6 text-[#8e7768]">Order Summary</h2>
 
                 <div className="space-y-4 mb-6 max-h-96 overflow-y-auto">
                   {items.map((item) => {
@@ -312,7 +205,7 @@ export default function CheckoutPage() {
                     const itemTotal = discountedPrice * item.quantity
 
                     return (
-                      <div key={item.id} className="flex justify-between items-start pb-4 border-b border-black/10">
+                      <div key={item.id} className="flex justify-between items-start pb-2 border-[#8e7768]/20">
                         <div className="flex-1">
                           <p className="font-bold text-sm">{item.name}</p>
                           <p className="text-gray-600 text-xs">Qty: {item.quantity}</p>
@@ -323,7 +216,7 @@ export default function CheckoutPage() {
                   })}
                 </div>
 
-                <div className="border-t-2 border-black pt-6 space-y-3">
+                <div className="border-t-2 border-[#8e7768]/20 pt-6 space-y-3">
                   <div className="flex justify-between">
                     <span>Subtotal:</span>
                     <span className="font-bold">${totalPrice.toFixed(2)}</span>
@@ -336,7 +229,7 @@ export default function CheckoutPage() {
                     <span>Tax:</span>
                     <span className="font-bold">${(totalPrice * 0.1).toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-xl pt-3 border-t border-black/20">
+                  <div className="flex justify-between text-xl pt-3 border-t border-[#8e7768]/20">
                     <span className="font-bold">Total:</span>
                     <span className="font-bold">${(totalPrice * 1.1).toFixed(2)}</span>
                   </div>
@@ -344,8 +237,8 @@ export default function CheckoutPage() {
 
                 <Link
                   href="/cart"
-                  className="block text-center mt-8 px-4 py-3 border border-black text-black font-bold hover:bg-black hover:text-white transition-colors"
-                >
+                  className="block text-center bg-[#] mt-8 px-4 py-3 border border-[#8e7768]/20 text-[#8e7768] font-bold hover:bg-[#8e7768] hover:text-white transition-colors"
+                > 
                   Back to Cart
                 </Link>
               </div>
