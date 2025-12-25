@@ -1,19 +1,44 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url)
+    const search = searchParams.get('search')
+
+    const whereClause = search
+      ? {
+          OR: [
+            { name: { contains: search } },
+            { description: { contains: search } },
+            { category: { contains: search } },
+          ],
+        }
+      : undefined
+
     const products = await prisma.product.findMany({
+      where: whereClause,
       include: {
         images: true,
-        variants: true
+        variants: true,
       },
       orderBy: {
-        createdAt: 'desc'
-      }
+        createdAt: 'desc',
+      },
     })
 
-    return NextResponse.json(products)
+    const filteredProducts = search
+      ? products.filter((product) => {
+          const searchLower = search.toLowerCase()
+          return (
+            product.name.toLowerCase().includes(searchLower) ||
+            product.description.toLowerCase().includes(searchLower) ||
+            product.category.toLowerCase().includes(searchLower)
+          )
+        })
+      : products
+
+    return NextResponse.json(filteredProducts)
   } catch (error) {
     console.error(error)
     return NextResponse.json(
