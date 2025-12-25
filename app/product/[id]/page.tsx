@@ -95,6 +95,7 @@ export default function ProductPage({
     addToCart({
       id: product.id,
       name: product.name,
+      description: product.description,
       price: product.basePrice,
       quantity,
       image_url: primaryImage ?? "/images/product/eci.jpg",
