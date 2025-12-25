@@ -6,6 +6,7 @@ interface CartItem {
   price: number
   discount_percent: number
   quantity: number
+  description: string
   image_url: string // Added image_url field
 }
 
