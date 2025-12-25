@@ -7,6 +7,7 @@ import { Meow_Script } from "next/font/google"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { UserAvatar } from "./user-avatar"
+import { ShoppingCart, User } from "lucide-react"
 import { SearchBar } from "./search-bar"
 
 const meowScript = Meow_Script({
@@ -65,20 +66,27 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Link href="/cart" className="text-[#C5A48E] px-6 py-2 outline outline-[#C5A48E] hover:bg-[#a18978] hover:text-white transition-colors font-medium">
-              Cart
-            </Link>
+          <Link
+            href="/cart"
+            className="flex items-center gap-2 px-6 py-2 font-medium text-[#C5A48E] outline outline-1 outline-[#C5A48E]
+                      hover:bg-[#a18978] hover:text-white transition-colors"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            <span>Cart</span>
+          </Link>
 
-            {status === "loading" ? null : !session ? (
-              <Link
-                href="/login"
-                className="px-6 py-2 bg-[#C5A48E] outline text-white outline-[#C5A48E] hover:outline-[#a18978] hover:bg-[#a18978] transition-colors font-medium"
-              >
-                Login
-              </Link>
-              ) : (
-              <UserAvatar user={session.user} />
-            )}
+          {status === "loading" ? null : !session ? (
+            <Link
+              href="/login"
+              className="flex items-center gap-2 px-6 py-2 font-medium text-white bg-[#C5A48E]
+                        outline outline-1 outline-[#C5A48E] hover:bg-[#a18978] hover:outline-[#a18978]
+                        transition-colors"
+            >
+              <User className="w-5 h-5" />
+              <span>Login</span>
+            </Link>
+          ) : null}
+
           </div>
 
           <button
