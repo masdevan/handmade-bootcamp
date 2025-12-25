@@ -49,6 +49,52 @@ export default function LoginPage() {
     }
   }
 
+  const handleRegister = async (name: string, email: string, password: string, phone: string) => {
+    setError("")
+    setLoading(true)
+
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          phone,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.message || "Registration failed. Please try again.")
+        setLoading(false)
+        return
+      }
+
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      })
+
+      if (result?.ok) {
+        router.push("/")
+        router.refresh()
+      } else {
+        setError("Registration successful! Please login.")
+        setMode("login")
+      }
+    } catch (error) {
+      setError("An error occurred. Please try again.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <>
       <Header />
@@ -70,7 +116,20 @@ export default function LoginPage() {
           )}
 
           {mode === "register" && (
-            <RegisterForm onSubmit={() => {}} onLogin={() => setMode("login")} />
+            <>
+              {error && (
+                <div className="mb-4 p-3 rounded-full bg-red-100 text-red-700 text-sm text-center">
+                  {error}
+                </div>
+              )}
+              <RegisterForm 
+                onSubmit={handleRegister} 
+                onLogin={() => {
+                  setError("")
+                  setMode("login")
+                }} 
+              />
+            </>
           )}
           {mode === "forgot" && (
             <ForgotPasswordForm onSubmit={() => {}} onBack={() => setMode("login")} />
