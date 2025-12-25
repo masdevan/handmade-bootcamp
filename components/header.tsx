@@ -8,6 +8,7 @@ import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { UserAvatar } from "./user-avatar"
 import { ShoppingCart, User } from "lucide-react"
+import { SearchBar } from "./search-bar"
 
 const meowScript = Meow_Script({
   subsets: ["latin"],
@@ -18,6 +19,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { data: session, status } = useSession()
+  const [searchQuery, setSearchQuery] = useState("")
 
   const menuItems = [
     { label: "Home", href: "/" },
@@ -25,6 +27,15 @@ export function Header() {
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ]
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    if (query.trim()) {
+      router.push(`/shop?search=${encodeURIComponent(query)}`)
+    } else {
+      router.push("/shop")
+    }
+  }
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 animate-slide-in-down shadow-sm">
@@ -34,6 +45,13 @@ export function Header() {
             <Image alt="logo" src="/brands/logo.png" width={40} height={40} />
             SilkyTouch
           </Link>
+
+          <div className="hidden md:flex flex-1 max-w-md mx-8">
+            <SearchBar 
+              onSearch={handleSearch}
+              placeholder="Cari produk..."
+            />
+          </div>
 
           <nav className="hidden md:flex items-center gap-8">
             {menuItems.map((item) => (
@@ -84,6 +102,13 @@ export function Header() {
 
         {isOpen && (
           <nav className="md:hidden mt-6 pb-6 border-t border-[#C5A48E] pt-6 space-y-4 animate-slide-in-down">
+            <div className="px-6 mb-4">
+              <SearchBar 
+                onSearch={handleSearch}
+                placeholder="Cari produk..."
+              />
+            </div>
+
             {menuItems.map((item) => (
               <Link
                 key={item.href}

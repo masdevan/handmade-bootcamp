@@ -3,15 +3,15 @@ import Link from "next/link"
 
 interface ProductCardProps {
   product: {
-    id: string
+    id: number | string
     name: string
     basePrice: number
-    discount_percent: number
+    discount_percent?: number
     images: {
       url: string
     }[]
-    is_new: boolean
-    is_popular: boolean
+    is_new?: boolean
+    is_popular?: boolean
   }
 }
 
