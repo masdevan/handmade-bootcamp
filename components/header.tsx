@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname  } from "next/navigation"
 import { Meow_Script } from "next/font/google"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
@@ -20,6 +20,7 @@ export function Header() {
   const router = useRouter()
   const { data: session, status } = useSession()
   const [searchQuery, setSearchQuery] = useState("")
+  const pathname = usePathname()
 
   const menuItems = [
     { label: "Home", href: "/" },
@@ -37,6 +38,8 @@ export function Header() {
     }
   }
 
+  const showSearchBar = pathname !== "/shop"
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 animate-slide-in-down shadow-sm">
       <div className="max-w-7xl m-auto py-3">
@@ -46,12 +49,14 @@ export function Header() {
             SilkyTouch
           </Link>
 
-          <div className="hidden md:flex flex-1 max-w-md mx-8">
-            <SearchBar 
-              onSearch={handleSearch}
-              placeholder="Cari produk..."
-            />
-          </div>
+          {showSearchBar && (
+            <div className="hidden md:flex flex-1 max-w-md mx-8">
+              <SearchBar 
+                onSearch={handleSearch}
+                placeholder="Cari produk..."
+              />
+            </div>
+          )}
 
           <nav className="hidden md:flex items-center gap-8">
             {menuItems.map((item) => (
