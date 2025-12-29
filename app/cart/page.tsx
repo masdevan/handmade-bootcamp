@@ -94,9 +94,9 @@ export default function CartPage() {
                           className="w-20 h-20 object-cover bg-gray-200"
                         />
                         <div className="flex-1">
-                          <h3 className="font-bold text-lg mb-2">{item.name}</h3>
-                          <p className="text-gray-600 mb-2 text-sm line-clamp-2">{item?.description}</p>
-                          <p className="text-gray-600">
+                          <h3 className="font-bold text-lg mb-2 text-[#7d6b5f]">{item.name}</h3>
+                          <p className="text-[#C5A48E] mb-2 text-sm line-clamp-2">{item?.description}</p>
+                          <p className="text-[#614330]">
                             ${discountedPrice.toFixed(2)} x {item.quantity}
                           </p>
                         </div>
@@ -104,11 +104,11 @@ export default function CartPage() {
 
                       <div className="flex items-center gap-6">
                         {/* Quantity Controls */}
-                        <div className="flex items-center border border-black/20">
+                        <div className="flex items-center border border-[#857162]">
                           <button
                             onClick={() => updateQuantity(item.cartItemId!, item.quantity - 1)}
                             disabled={loading}
-                            className="px-3 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-2 cursor-pointer hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             -
                           </button>
@@ -116,7 +116,7 @@ export default function CartPage() {
                           <button
                             onClick={() => updateQuantity(item.cartItemId!, item.quantity + 1)}
                             disabled={loading}
-                            className="px-3 py-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-2 cursor-pointer hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             +
                           </button>
@@ -131,7 +131,7 @@ export default function CartPage() {
                         <button
                           onClick={() => removeItem(item.cartItemId!)}
                           disabled={loading}
-                          className="p-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="p-2 bg-red-600 text-white cursor-pointer rounded-md hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                           aria-label="Remove item"
                         >
                           <Trash2 className="w-5 h-5 text-white" />
@@ -144,7 +144,7 @@ export default function CartPage() {
 
               {/* Summary */}
               
-              <div className="border-t-2 border-black">
+              <div className="border-t-2 border-[#7a6659]">
               <div>
             </div>
 
@@ -189,7 +189,7 @@ export default function CartPage() {
                           font-bold cursor-pointer
                           hover:bg-white hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border
                           transition-colors duration-200">
-                    <ShoppingCart className="w-5 h-5 text-white hover:text-[#C5A48E]" />
+                    <ShoppingCart className="w-5 h-5 hover:text-[#C5A48E]" />
                     <span>Checkout</span>
                   </button>
                   </div>
