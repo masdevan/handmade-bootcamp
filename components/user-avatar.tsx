@@ -34,9 +34,9 @@ export function UserAvatar({ user }: { user: User }) {
           Profile
         </Link> */}
 
-        {/* <Link href="/orders" className="block text-[#C5A48E] px-4 py-2 hover:bg-gray-100">
+        <Link href="/orders" className="block text-[#C5A48E] px-4 py-2 hover:bg-gray-100">
           Orders
-        </Link> */}
+        </Link>
 
         <button
           onClick={() => signOut()}

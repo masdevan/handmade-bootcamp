@@ -152,7 +152,7 @@ export default function CheckoutPage() {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                          total: totalPrice * 1.1, // KIRIM NUMBER
+                          total: totalPrice * 1.1,
                         }),
                       })
 

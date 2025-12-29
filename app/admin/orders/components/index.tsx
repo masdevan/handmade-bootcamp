@@ -56,9 +56,9 @@ export async function TableOrders({
             <TableHead>Payment Status</TableHead>
             <TableHead>Total Price</TableHead>
             <TableHead>Created At</TableHead>
-            <TableHead className="pr-5 text-right sm:pr-6 xl:pr-7.5">
+            {/* <TableHead className="pr-5 text-right sm:pr-6 xl:pr-7.5">
               Actions
-            </TableHead>
+            </TableHead> */}
           </TableRow>
         </TableHeader>
 
@@ -88,7 +88,7 @@ export async function TableOrders({
                 })}
               </TableCell>
 
-              <TableCell className="xl:pr-7.5">
+              {/* <TableCell className="xl:pr-7.5">
                 <div className="flex items-center justify-end gap-x-3.5">
 
                   <Link
@@ -104,7 +104,7 @@ export async function TableOrders({
                     <PencilSquareIcon />
                   </Link>
                 </div>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>
