@@ -33,20 +33,20 @@ export default function CartPage() {
         <div className="relative max-w-7xl m-auto py-3">
           <h1 className="text-4xl md:text-5xl font-bold text-[#8e7768] mb-12 animate-slide-in-up">Shopping Cart</h1>
 
-        <div className="flex justify-between items-center">
-        <button
-            onClick={() => router.push("/")}
-            className="flex flex-row items-center gap-2 px-2 py-4 border border-none hover:text-[#C5A48E] text-black font-bold transition-colors text-left animate-slide-in-up">
-            <MoveLeft className="w-5 h-5" />
-            <span>Continue Shopping</span>
-        </button>
+        <div className="flex justify-between items-center mb-5">
+          <button
+              onClick={() => router.push("/")}
+              className="flex flex-row items-center cursor-pointer gap-2 px-2 py-4 border border-none hover:text-[#C5A48E] text-[#a38876] font-bold transition-colors text-left animate-slide-in-up">
+              <MoveLeft className="w-5 h-5" />
+              <span>Continue Shopping</span>
+          </button>
 
-        <button
-          onClick={() => clearCart()}
-          className="px-8 py-4 bg-red-600 text-white font-bold hover:bg-red-700 transition-colors"
-        >
-          Clear Cart
-        </button>
+          <button
+            onClick={() => clearCart()}
+            className="px-4 py-2 bg-red-600 cursor-pointer text-white font-bold hover:bg-red-700 transition-colors"
+          >
+            Clear Cart
+          </button>
         </div>
 
           {loading ? (
