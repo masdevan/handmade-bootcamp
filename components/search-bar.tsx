@@ -32,7 +32,7 @@ export function SearchBar({ onSearch, placeholder = "Cari produk...", initialVal
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={placeholder}
-          className="w-full px-6 py-4 pr-12 text-lg border-2 border-[#C5A48E] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C5A48E] focus:border-transparent text-[#8d7565] placeholder:text-[#b89680]"
+          className="w-full px-6 py-2 pr-12 text-sm border-2 border-[#C5A48E] rounded-sm focus:outline-none focus:ring-2 focus:ring-[#C5A48E] focus:border-transparent text-[#8d7565] placeholder:text-[#b89680]"
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
           {searchQuery && (
