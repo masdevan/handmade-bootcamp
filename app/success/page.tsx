@@ -48,7 +48,7 @@ export default function SuccessPage() {
             </Link>
 
             <Link
-              href="/cart"
+              href="/orders"
               className="px-8 py-3 border border-black font-bold hover:bg-black hover:text-white transition"
             >
               View My Orders
