@@ -49,14 +49,14 @@ export function Header() {
             SilkyTouch
           </Link>
 
-          {showSearchBar && (
+          {/* {showSearchBar && (
             <div className="hidden md:flex flex-1 max-w-md mx-8">
               <SearchBar 
                 onSearch={handleSearch}
                 placeholder="Cari produk..."
               />
             </div>
-          )}
+          )} */}
 
           <nav className="hidden md:flex items-center gap-8">
             {menuItems.map((item) => (

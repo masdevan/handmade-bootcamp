@@ -38,7 +38,7 @@ export function LoginForm({
             onChange={(e) => setEmail(e.target.value)}
             className="
               w-full px-5 py-3
-              rounded-full
+              rounded-lg
               border border-[#857164]  
               bg-white text-[#857164]
               placeholder:text-[#b69d8c]
@@ -61,7 +61,7 @@ export function LoginForm({
             onChange={(e) => setPassword(e.target.value)}
             className="
               w-full px-5 py-3
-              rounded-full
+              rounded-lg
               border border-[#857164]  
               bg-white text-[#857164]   
               placeholder:text-[#b69d8c]
@@ -88,7 +88,7 @@ export function LoginForm({
           type="submit"
           className="
             w-full py-4
-            rounded-full
+            rounded-lg
             bg-[#C5A48E] text-white border-[#C5A48E] border
             font-bold cursor-pointer
             hover:bg-transparent hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border

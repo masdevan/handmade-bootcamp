@@ -13,8 +13,8 @@ export function ForgotPasswordForm({
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-2">Forgot Password?</h1>
-      <p className="text-gray-600 mb-10">
+      <h1 className="text-3xl font-bold mb-2 text-[#857164]">Forgot Password?</h1>
+      <p className="text-[#857164] mb-10">
         Enter your email and we’ll send you a reset link
       </p>
 
@@ -27,7 +27,7 @@ export function ForgotPasswordForm({
       >
         {/* Email */}
         <div className="space-y-2">
-          <label className="block text-sm font-bold text-black">
+          <label className="block text-sm font-bold text-[#857164]">
             Email Address
           </label>
           <input
@@ -36,10 +36,10 @@ export function ForgotPasswordForm({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="
-              w-full px-5 py-3 rounded-full
+              w-full px-5 py-3 rounded-lg
               border border-black/20
-              bg-white text-black
-              placeholder:text-gray-400
+              bg-white text-[#857164]
+              placeholder:text-[#b69d8c]
               focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent
               transition
             "
@@ -51,7 +51,7 @@ export function ForgotPasswordForm({
         <button
           type="submit"
           className="
-            w-full py-4 rounded-full
+            w-full py-4 rounded-lg
             bg-[#C5A48E] text-white font-bold
             hover:bg-transparent hover:text-[#C5A48E] hover:border-[#C5A48E] hover:border
             transition-colors duration-200
@@ -65,7 +65,7 @@ export function ForgotPasswordForm({
       <button
         type="button"
         onClick={onBack}
-        className="mt-8 w-full text-center text-sm font-bold text-black hover:text-gray-700 transition"
+        className="mt-8 w-full text-center text-sm font-bold text-[#857164] hover:text-[#b69d8c] transition"
       >
         Back to Login
       </button>
