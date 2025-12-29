@@ -50,11 +50,11 @@ export async function POST(req: Request) {
       data: {
         userId: user.id,
         totalPrice: total,
-        address: "DEFAULT ADDRESS",
-        shippingMethod: "STANDARD",
+        address: "Daerah Istimewa Kebun Sawit",
+        shippingMethod: "Lalamove",
         shippingCost: 0,
         status: "Progress",
-        paymentStatus: "PAID",
+        paymentStatus: "Paid",
         createdAt: new Date(),
         updatedAt: new Date(),
 
