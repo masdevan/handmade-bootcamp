@@ -116,6 +116,11 @@ export default function ProductPage({
   }
 
   const handleCheckout = () => {
+    if (!session?.user?.id) {
+      router.push("/login")
+      return
+    }
+
     handleAddToCart()
     router.push("/cart")
   }
