@@ -9,7 +9,7 @@ export async function OverviewCardsGroup() {
   return (
     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4 2xl:gap-7.5">
       <OverviewCard
-        label="Total Views"
+        label="Total Orders"
         data={{
           ...views,
           value: compactFormat(views.value),
@@ -18,7 +18,7 @@ export async function OverviewCardsGroup() {
       />
 
       <OverviewCard
-        label="Total Profit"
+        label="Total Income"
         data={{
           ...profit,
           value: "$" + compactFormat(profit.value),
