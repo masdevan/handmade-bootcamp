@@ -43,7 +43,7 @@ export default async function Page({
         items={[
           { label: 'Dashboard', href: '/admin/dashboard' },
           { label: 'Orders', href: '/admin/orders' },
-          { label: `Order #${order.id}` },
+          { label: `${order.id}` },
         ]}
       />
 

@@ -39,11 +39,11 @@ export async function TableOrders({
 
   return (
     <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
-      <Link href={'orders/create'} className="px-6 py-4 sm:px-7 sm:py-5 xl:px-8.5 flex justify-between">
+      <div className="px-6 py-4 sm:px-7 sm:py-5 xl:px-8.5 flex justify-between">
         <h2 className="text-2xl font-bold text-dark dark:text-white">
           Orders
         </h2>
-      </Link>
+      </div>
 
       <Table>
         <TableHeader>
@@ -56,9 +56,9 @@ export async function TableOrders({
             <TableHead>Payment Status</TableHead>
             <TableHead>Total Price</TableHead>
             <TableHead>Created At</TableHead>
-            {/* <TableHead className="pr-5 text-right sm:pr-6 xl:pr-7.5">
+            <TableHead className="pr-5 text-right sm:pr-6 xl:pr-7.5">
               Actions
-            </TableHead> */}
+            </TableHead>
           </TableRow>
         </TableHeader>
 
@@ -99,10 +99,10 @@ export async function TableOrders({
                     <PreviewIcon />
                   </Link>
 
-                  {/* <Link href={`/admin/orders/${order.id}/edit`} className="hover:text-primary">
+                  <Link href={`/admin/orders/${order.id}/edit`} className="hover:text-primary">
                     <span className="sr-only">Edit Order</span>
                     <PencilSquareIcon />
-                  </Link> */}
+                  </Link>
                 </div>
               </TableCell>
             </TableRow>
