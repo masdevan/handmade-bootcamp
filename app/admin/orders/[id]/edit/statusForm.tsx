@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+import { ShowcaseSection } from '@/components/admin/Layouts/showcase-section'
+
 const STATUS_OPTIONS = [
   { value: 'Cancelled', label: 'Cancelled' },
   { value: 'Progress', label: 'Progress' },
@@ -35,36 +37,37 @@ export default function OrderStatusForm({ order }: any) {
   }
 
   return (
-    <div className="lg:col-span-1 rounded-xl border border-stroke bg-white p-6 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold">Update Order Status</h2>
+    <ShowcaseSection
+          title={`Update Order Status`}
+          className="!p-6.5 lg:col-span-2"
+        >
+        <div className="mb-6 space-y-1 text-sm ">
+          <p><b>Customer:</b> {order.user.name}</p>
+          <p><b>Email:</b> {order.user.email}</p>
+          <p><b>Total:</b> ${order.totalPrice.toLocaleString()}</p>
+          <p><b>Payment:</b> {order.paymentStatus}</p>
+        </div>
 
-      <div className="mb-6 space-y-1 text-sm text-gray-600">
-        <p><b>Customer:</b> {order.user.name}</p>
-        <p><b>Email:</b> {order.user.email}</p>
-        <p><b>Total:</b> ${order.totalPrice.toLocaleString()}</p>
-        <p><b>Payment:</b> {order.paymentStatus}</p>
-      </div>
+        <label className="mb-1 block text-sm font-medium">Order Status</label>
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="mb-6 w-full rounded-lg border px-4 py-2 text-sm"
+        >
+          {STATUS_OPTIONS.map(opt => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
 
-      <label className="mb-1 block text-sm font-medium">Order Status</label>
-      <select
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-        className="mb-6 w-full rounded-lg border px-4 py-2 text-sm"
-      >
-        {STATUS_OPTIONS.map(opt => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-
-      <button
-        onClick={updateStatus}
-        disabled={loading}
-        className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-opacity-90 disabled:opacity-60"
-      >
-        {loading ? 'Updating...' : 'Update Status'}
-      </button>
-    </div>
+        <button
+          onClick={updateStatus}
+          disabled={loading}
+          className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-opacity-90 disabled:opacity-60"
+        >
+          {loading ? 'Updating...' : 'Update Status'}
+        </button>
+    </ShowcaseSection>
   )
 }
