@@ -170,10 +170,18 @@ export default function CartPage() {
                         </tr>
                         <tr>
                           <td className="text-left p-2">
+                            Tax
+                          </td>
+                          <td className="p-4 text-right">
+                            ${(totalPrice * 0.1).toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-left p-2">
                             Subtotal
                           </td>
                           <td className="p-4 text-right font-bold">
-                            ${totalPrice.toFixed(2)}
+                            ${(totalPrice * 1.1).toFixed(2)}
                           </td>
                         </tr>
                       </tbody>

@@ -56,12 +56,12 @@ export default async function Page({
 
           <span
             className={`rounded-full px-3 py-1 text-xs font-medium
-              ${order.status === 'PAID' && 'bg-green-100 text-green-700'}
-              ${order.status === 'PROGRESS' && 'bg-yellow-100 text-yellow-700'}
-              ${order.status === 'CANCELLED' && 'bg-red-100 text-red-700'}
+              ${order.status === 'Completed' && 'bg-green-100 text-green-700'}
+              ${order.status === 'Progress' && 'bg-yellow-100 text-yellow-700'}
+              ${order.status === 'Cancelled' && 'bg-red-100 text-red-700'}
             `}
           >
-            {/* {order.status} */}
+            {order.status}
           </span>
         </div>
 

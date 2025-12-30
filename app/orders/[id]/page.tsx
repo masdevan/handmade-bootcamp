@@ -6,6 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { OrderStatusBanner } from "./OrderStatusBanner"
 
 export default function OrderDetailPage() {
   const params = useParams()
@@ -27,10 +28,33 @@ export default function OrderDetailPage() {
     fetchOrder()
   }, [id])
 
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <main className="min-h-screen flex items-center justify-center">
+          <p>Loading order...</p>
+        </main>
+        <Footer />
+      </>
+    )
+  }
+
+  if (!order) return null
+
+  const subtotal = order.items.reduce(
+    (sum: number, item: any) =>
+      sum + item.priceEach * item.quantity,
+    0
+  )
+
+  const tax = subtotal * 0.1
+  const shipping = order.shippingCost || 0
+  const total = subtotal + tax + shipping
+
   return (
     <>
       <Header />
-
       <main className="min-h-screen bg-gray-50">
         <div className="max-w-5xl mx-auto px-4 py-12">
           <Link
@@ -40,82 +64,82 @@ export default function OrderDetailPage() {
             ← Back to orders
           </Link>
 
-          {loading && <p>Loading order...</p>}
+          <div className="bg-white rounded-xl p-6 shadow-sm border">
+            <h2 className="font-semibold mb-2">Order #{order.id}</h2>
+            <p className="text-sm text-gray-500 mb-6">
+              {new Date(order.createdAt).toLocaleDateString("en-US", {
+                dateStyle: "long",
+              })}
+            </p>
 
-          {!loading && order?.status === "Progress" && (
-            <div className="mb-6 rounded-xl border border-yellow-300 bg-yellow-50 p-4">
-                <p className="font-semibold text-yellow-800 mb-1">
-                ⏳ Order in Progress
-                </p>
+            {!loading && order && (
+              <OrderStatusBanner
+                status={order.status}
+                shippingMethod={order.shippingMethod}
+              />
+            )}
 
-                <p className="text-sm text-yellow-700">
-                Your order is currently being processed.
-                If you would like to check the latest progress, please contact us via WhatsApp.
-                </p>
+            {/* ITEMS */}
+            <div className="space-y-6">
+              {order.items.map((item: any) => {
+                const imageUrl =
+                  item.product.images.find((img: any) => img.isPrimary)?.url ||
+                  "/placeholder.png"
 
-                <a
-                href="https://wa.me/+6285728133473"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block mt-3 text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg transition"
-                >
-                Contact via WhatsApp
-                </a>
-            </div>
-          )}
-
-          {!loading && order && (
-            <div className="bg-white rounded-xl p-6 shadow-sm border">
-              <h2 className="font-semibold mb-2">Order #{order.id}</h2>
-              <p className="text-sm text-gray-500 mb-6">
-                {new Date(order.createdAt).toLocaleDateString("id-ID", {
-                  dateStyle: "long",
-                })}
-              </p>
-
-              {/* ITEMS */}
-              <div className="space-y-4">
-                {order.items.map((item: any) => {
-                  const imageUrl =
-                    item.product.images.find((img: any) => img.isPrimary)
-                      ?.url || "/placeholder.png"
-
-                  return (
-                    <div
+                return (
+                  <div
                     key={item.id}
                     className="flex gap-6 border-b pb-6 last:border-none"
-                    >
-                    {/* IMAGE */}
+                  >
                     <div className="relative w-40 h-40 rounded-xl overflow-hidden bg-gray-100">
-                    <Image
-                        src={
-                            item.product.images.find((img: any) => img.isPrimary)?.url ||
-                            "/placeholder.png"
-                        }
+                      <Image
+                        src={imageUrl}
                         alt={item.product.name}
                         fill
                         className="object-cover"
-                    />
+                      />
                     </div>
 
-                    {/* INFO */}
                     <div className="flex-1">
-                        <p className="font-medium text-lg">{item.product.name}</p>
-                        <p className="text-sm text-gray-500">
+                      <p className="font-medium text-lg">
+                        {item.product.name}
+                      </p>
+                      <p className="text-sm text-gray-500">
                         Qty: {item.quantity}
-                        </p>
+                      </p>
                     </div>
 
-                    {/* PRICE */}
                     <p className="font-semibold text-lg">
-                        ${(item.priceEach * item.quantity).toLocaleString("en-US")}
+                      ${(item.priceEach * item.quantity).toLocaleString("en-US")}
                     </p>
-                    </div>
-                  )
-                })}
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* SUMMARY */}
+            <div className="mt-8 space-y-3 border-t pt-6">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Subtotal</span>
+                <span>${subtotal.toLocaleString("en-US")}</span>
+              </div>
+
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Tax (10%)</span>
+                <span>${tax.toLocaleString("en-US")}</span>
+              </div>
+
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">Shipping</span>
+                <span>${shipping.toLocaleString("en-US")}</span>
+              </div>
+
+              <div className="flex justify-between text-lg font-semibold border-t pt-4">
+                <span>Total</span>
+                <span>${total.toLocaleString("en-US")}</span>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </main>
 
