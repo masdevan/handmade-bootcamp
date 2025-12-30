@@ -7,15 +7,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    console.log("🔥 ORDER DETAIL ROUTE HIT 🔥")
-
-    // ✅ WAJIB await params (Next 16)
     const { id } = await params
-
-    console.log("RAW ID 👉", id)
-
     const orderId = Number(id)
-    console.log("ORDER ID 👉", orderId)
 
     if (Number.isNaN(orderId)) {
       return NextResponse.json(

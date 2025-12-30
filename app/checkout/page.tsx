@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js"
+import { PayPalScriptProvider, PayPalButtons, FUNDING } from "@paypal/react-paypal-js"
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -74,6 +74,12 @@ export default function CheckoutPage() {
     )
   }
 
+  const isAddressComplete =
+  formData.address &&
+  formData.city &&
+  formData.state &&
+  formData.zipCode
+
   return (
     <>
       <Header />
@@ -138,16 +144,38 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
+                {!isAddressComplete && (
+                  <p className="text-sm text-red-600 mt-4">
+                    Please complete your shipping address to proceed with payment.
+                  </p>
+                )}
+                
+
                 <PayPalScriptProvider
                   options={{
                     clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
                     currency: "USD",
-                    intent: 'capture'
+                    intent: "capture",
+                    components: "buttons",
+                    disableFunding: "card,bancontact,blik,eps,giropay,ideal,mybank,p24,sepa,sofort",
                   }}
                 >
                   <PayPalButtons
-                    style={{ layout: "vertical" }}
+                    fundingSource={FUNDING.PAYPAL}
+                    disabled={!isAddressComplete}
+                    style={{
+                      layout: "vertical",
+                      color: "gold",
+                      shape: "rect",
+                      label: "paypal",
+                    }}
+                    // style={{ layout: "vertical" }}
                     createOrder={async () => {
+                      if (!isAddressComplete) {
+                        alert("Please complete your shipping address first.")
+                        throw new Error("Address incomplete")
+                      }
+
                       const res = await fetch("/api/paypal/create-order", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -169,19 +197,26 @@ export default function CheckoutPage() {
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                           orderID: data.orderID,
+                          shippingAddress: {
+                            address: formData.address,
+                            city: formData.city,
+                            state: formData.state,
+                            zipCode: formData.zipCode,
+                          },
+                          shippingMethod: "DEGRADASI | Devan, Eci, Guntur, Ridzwan Distribusi Antar Seluruh Indonesia",
                         }),
                       })
 
-                      const text = await res.text()
-                      if (!res.ok) throw new Error(text || "Capture failed")
-
-                      const details = JSON.parse(text)
-
-                      console.log("CAPTURE RESULT:", details)
+                      const result = await res.json()
+                      if (!res.ok) {
+                        alert(result.error || "Payment failed")
+                        return
+                      }
 
                       clearCart()
-                      router.push("/success")
+                      router.push(`/orders/${result.orderId}`)
                     }}
+
 
 
                     onError={(err) => {

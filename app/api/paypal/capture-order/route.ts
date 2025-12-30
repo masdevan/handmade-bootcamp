@@ -10,12 +10,32 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { orderID } = await req.json()
+    const {
+      orderID,
+      shippingAddress,
+      shippingMethod,
+    } = await req.json()
+
     if (!orderID) {
       return NextResponse.json({ error: "Missing orderID" }, { status: 400 })
     }
 
+    if (
+      !shippingAddress?.address ||
+      !shippingAddress?.city ||
+      !shippingAddress?.state ||
+      !shippingAddress?.zipCode
+    ) {
+      return NextResponse.json(
+        { error: "Shipping address incomplete" },
+        { status: 400 }
+      )
+    }
+
+    /* ================= PAYPAL CAPTURE ================= */
+
     const accessToken = await getPayPalAccessToken()
+
     const paypalRes = await fetch(
       `${process.env.PAYPAL_API_BASE}/v2/checkout/orders/${orderID}/capture`,
       {
@@ -30,28 +50,44 @@ export async function POST(req: Request) {
     const paypalData = await paypalRes.json()
 
     if (paypalData.status !== "COMPLETED") {
-      return NextResponse.json({ error: "Payment not completed" }, { status: 400 })
+      return NextResponse.json(
+        { error: "Payment not completed" },
+        { status: 400 }
+      )
     }
+
+    /* ================= USER & CART ================= */
 
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
-      include: { cartItems: { include: { product: true } } },
+      include: {
+        cartItems: {
+          include: { product: true },
+        },
+      },
     })
 
     if (!user || user.cartItems.length === 0) {
       return NextResponse.json({ error: "Cart empty" }, { status: 400 })
     }
 
-    const total = user.cartItems.reduce((sum, item) => {
-      return sum + item.product.basePrice * item.quantity * 1.1
+    /* ================= TOTAL ================= */
+
+    const subtotal = user.cartItems.reduce((sum, item) => {
+      return sum + item.product.basePrice * item.quantity
     }, 0)
+
+    const tax = subtotal * 0.1
+    const total = subtotal + tax
+
+    /* ================= CREATE ORDER ================= */
 
     const order = await prisma.order.create({
       data: {
         userId: user.id,
         totalPrice: total,
-        address: "Daerah Istimewa Kebun Sawit",
-        shippingMethod: "Lalamove",
+        address: `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.zipCode}`,
+        shippingMethod: shippingMethod || "Standard",
         shippingCost: 0,
         status: "Progress",
         paymentStatus: "Paid",
@@ -79,6 +115,8 @@ export async function POST(req: Request) {
       },
     })
 
+    /* ================= CLEAR CART ================= */
+
     await prisma.cartItem.deleteMany({
       where: { userId: user.id },
     })
@@ -89,6 +127,9 @@ export async function POST(req: Request) {
     })
   } catch (error: any) {
     console.error(error)
-    return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    )
   }
 }
