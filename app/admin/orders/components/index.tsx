@@ -88,7 +88,7 @@ export async function TableOrders({
                 })}
               </TableCell>
 
-              {/* <TableCell className="xl:pr-7.5">
+              <TableCell className="xl:pr-7.5">
                 <div className="flex items-center justify-end gap-x-3.5">
 
                   <Link
@@ -99,12 +99,12 @@ export async function TableOrders({
                     <PreviewIcon />
                   </Link>
 
-                  <Link href={`/admin/orders/${order.id}/edit`} className="hover:text-primary">
+                  {/* <Link href={`/admin/orders/${order.id}/edit`} className="hover:text-primary">
                     <span className="sr-only">Edit Order</span>
                     <PencilSquareIcon />
-                  </Link>
+                  </Link> */}
                 </div>
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
